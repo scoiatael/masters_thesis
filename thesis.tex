@@ -1,0 +1,332 @@
+\documentclass[11pt]{scrartcl}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{color}
+\usepackage{fontspec}
+\usepackage{listings,times}
+\usepackage[scaled]{beramono}
+%\newfontfamily{\lstsansserif}[Scale=.85]{Latin Modern Mono}
+
+\definecolor{keywords}{RGB}{30,200,30}
+\definecolor{comments}{RGB}{210,40,40}
+\usepackage{listings,times}
+\lstset{
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{keywords},
+  commentstyle=\color{comments}\emph}
+
+\usepackage{bbm}
+\usepackage[colorlinks=true, urlcolor=blue]{hyperref}
+\usepackage{url}
+\usepackage{dirtytalk}
+
+%\setmainfont{Latin Modern Roman}
+\bibliography{books}
+
+\title{Application of functional programming to construction of visual programming language}
+\author{Łukasz Czapliński}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\subsection{Abstract}
+The aim of this thesis is to propose an approach to  Visual Programming Languages that will alleviate problems with using them, instead of textual languages, for everyday programming. In addition, a Visual Programming Editor - Jarvis - is implemented as a proof-of-concept for that proposal.
+
+\subsection{Visual Programming Languages}
+Programming is an art of communication - both with machine and with other people.
+To express algorithms in a machine-readable way, we use programming languages. When it comes to describing our ideas to other programmers, we often use entirely different means. Diagrams are one of the most universal ones. Since the invention of graphical interfaces, we have been trying to apply similar means for communicating with the machine.
+
+Visual Programming Languages are one many of attempts to achieve this. Shapes, colours and text annotations are used to represent computer programs, instead of employing only formatted text. That representation is “first-class” - users are expected to manipulate it directly, instead of changing some underlying text representation. Such programming languages often do not possess human-readable textual representation. There is no widely adopted formal definition.  For purposes of this thesis, I propose (after \cite[Chapter 2]{nickerson1995visual}):
+\say{Interactive use of diagrams in the process of programming.}
+
+Attempts to create such language were possible only after the invention of graphical interface. The first interactive visual programming language was created by W. Sutherland in 1966 [Citation?]. A simple language based on flowcharts was created in 1969 at Rand [Citation?]. After invention of the first visual programming environments at Xerox Parc in 1970, the main focus of next generations was to improve interface for programmers, while still using textual representation. It is visible in most programming environments, from Smalltalk to Microsoft Visual Studio. No visual programming language ever gained traction comparable to common textual programming languages {Citation?}. 
+
+Historical reasons for that are twofold. First of all, although it might be easier for a novice to understand the idea of an algorithm from a diagram, there are no gains for an experienced programmer. For a completely new paradigm to gain traction, current programmers would have to learn it. This would be even more painful than learning a new programming language, as syntax of most mainstream languages with textual representation is similar. Additionally, most of programming tools are specialised for manipulating text {git as an example?}.
+
+Currently, more reasons to develop visual programming begin to emerge. Keyboard, and later mouse, were traditionally used to interact with the machine. Nowadays, touchscreens are getting more and more attention - they are currently the prime interface for smartphones. Thus, most young people are more familiar with them, and not mouse or keyboard. Text is easy to manipulate with keyboard, but hard to manipulate with gestures - visual programming would be far more intuitive for new adepts. Another reason is programming becoming less of an arcane discipline, and more of a skill needed in every branch of industry. This makes collaboration between programmers and domain experts even more important. Ease of understanding diagrams (and not programming language) might become a crucial factor in application development, decreasing time needed to develop them. Therefore, developing a new approach to visual programming languages that overcomes its historical problems is essential.
+
+\subsection{Visual Programming Environments}
+Since the invention of Smalltalk, programming environments that marred textual representation with graphical interface have been becoming more and more popular. Nowadays, powerful IDEs are commonly used. {examples?}
+
+Their main advantage over visual programming languages is their versatility - textual representation allowed them to gain popularity without forcing existing programmers to change habits and allowed them to keep tools that support text. Their chief disadvantage is blurring lines between the editor and the language - because new language features need new editor features, new IDEs dwarf venerable Emacs (which was often accused of being nothing short of operating system). They are integrated with the language to the point where using a different editor for particular language is infeasible.
+
+\subsection{Summary}
+In order for a Visual Programming Language to be successful, it cannot be purely visual. It should use textual representation underneath, and be suitable for editing both as text and as a diagram. Textual representation should be minimal, so that the editor won’t have  to handle complex syntactic structures. There is one programming paradigm that focuses on making programs well-structured and concise: functional programming.
+Purpose of this thesis is using functional programming to create a new Visual Programming Language, describe it, and evaluate it by comparing with existing VPLs and VPEs.
+
+\section{Functional Programming}
+\subsection{What is functional programming?}
+After \cite{WhyFPMatters}, one might define functional programming as:
+\say{Paradigm of programming where fundamental operation is the application of functions to arguments.}
+It means that the program itself is a function which treats its environment as an input and delivers some changes to outside world as a result. The main function is composed of auxiliary functions, which are in turn defined as a composition of more functions. This ‘functions all the way down’ approach (down to handful of language primitives) leads to very powerful and concise languages. This is caused by better code modularisation in form of higher order functions. It bears resemblance to imperative programming being superior to structured programming. Presence of GOTOs made it impossible to generalise programs (as labels were local and impossible to encapsulate). Functional programming forbids variable mutation (or more generally, side effects). The only possible declarations are static assignments. Mutable states are encapsulated in specialised structures.This facilitates code analysis. Unfortunately, it doesn’t come without downsides: it’s hard for an average programmer to switch to functional programming.
+
+\subsection{How this can be applied to VPL design?}
+
+Ideally, a suitable textual representation for VPL would be flexible, powerful and simple.
+One kind of functional programming languages fits this description especially well. It is LISP (LISt Processor), developed by the Artificial Intelligence group at M.I.T. [Quote{recursive}].
+
+It is based on Symbolic Expressions (S-expressions) and functions operating on them. Briefly, an S-expression is a list of primitives and S-expressions. A list containing primitives a,b,c is represented as (a, b, c). S-functions are functions operating on S-expressions, encoded as S-expressions. LISP is just an interpreter for S-functions. It’s remarkable, because encoding language in the same way as its data structures empowers it. For example, one can easily write a function that operates on syntactic forms instead of values. This makes language very powerful, while keeping syntax absolutely minimal. The price for generalised syntax is plenty of similar structures in code and results in code that is hard to read:
+\begin{lstlisting}
+(defun fibonacci (N)
+  "Compute the Nth Fibonacci number."
+  (if (or (zerop N) (= N 1))
+      1
+    (+ (fibonacci (- N 1)) (fibonacci (- N 2)))))
+\end{lstlisting}
+
+\section{Clojure}
+\subsection{Introduction}
+Clojure is a modern functional programming language based on LISP. It’s described on its website {https://clojure.org/} as:
+\say{Clojure is a dynamic, general-purpose programming language, combining the approachability and interactive development of a scripting language with an efficient and robust infrastructure for multithreaded programming. Clojure is a dialect of Lisp, and shares with Lisp the code-as-data philosophy and a powerful macro system.}
+
+\subsection{Syntax}
+Lisp’s code-as-data philosophy means that Clojure programs are built using its data structures. Generally, Clojure’s specification {Citation?} defines Extensible Data Notation (EDN), which is a description of data structures available to Clojure programmers. It includes the following primitives:
+\begin{itemize}
+  \item Nil
+  \item Booleans
+  \item Integers
+  \item Floats
+  \item Characters
+  \item Strings
+  \item Symbols
+  \item Keywords
+\end{itemize}
+In addition to them, it defines a few compound types, encoded as S-expressions:
+\begin{itemize}
+  \item List - $(a b c) $
+  \item Vector - $[a b c]$
+  \item Map - ${a_key a_value b_key b_value}$
+  \item Set - $\#{a b c}$
+\end{itemize}
+Extensibility is achieved by tags:  {https://github.com/edn-format/edn\#tagged-elements}. Any element can be prefixed by a tag, for example:
+\begin{lstlisting}
+#myapp/Person {:first "Fred" :last "Mertz"} 
+\end{lstlisting}
+When Clojure’s parser encounters such element, it has a couple of choices, one of them being creating a known representation. This, coupled with the fact that only elements readable by Clojure’s parser can be tagged, means that the parser that doesn’t know a specific tag can still work on a Clojure program containing that tag.
+
+\subsection{Semantics}
+\subsubsection{Evaluation}
+Everything but non-empty lists and symbols evaluate to corresponding data structure. Symbols are resolved, which generally means lookup for a variable corresponding to that symbol. Non-empty lists are interpreted as calls in form of $(operator operands*)$. Whether operands are evaluated, depends on the type of the operator. These include:
+\begin{itemize}
+  \item Special forms, which are Clojure’s primitives. There are  less than 20 in total.
+  \item Macros, which are used to manipulate syntactic abstractions. Operands are passed unevaluated to the macro, and the returned data structure is then evaluated.
+\end{itemize}
+If operator is neither a special form nor a macro, the form is interpreted as a function call: both the operator and the operands are evaluated, and the function resulting from the operator’s evaluation is called with the results of evaluating the operands as arguments. The returned value is the value of the expression.
+\subsubsection{Data Structures}
+Clojure designers opted for integrating more data structures into the syntax to allow encoding complex data structures in a human-readable way. One could easily build a hashmap using a constructor function
+$(hashmap a b c d)$, although using Clojure’s syntax - ${a b c d}$ - is more readable and doesn’t require eval. Also, it might be worth noting that almost all Clojure data structures are immutable.
+\subsubsection{Macro Operators}
+Clojure differs from pure LISP in one more aspect. Its reader recognises some operators and automatically transforms them:
+\begin{itemize}
+  \item $@$ - dereference:
+$@some_ref$ => $(deref some_ref)$
+Used to extract value from references and atoms
+  \item $‘$ - quote:
+$‘foo$ => $(quote foo)$
+Works like LISPs quote, allows stopping evaluation of data structures.
+  \item $`$ - syntactic quote:
+No macro equivalent
+Extends quote capabilities to allow escaping (i.e. evaluating only some parts of quoted data structure)
+  \item $~$ - syntactic quote escape
+No macro equivalent
+Used in conjunction with syntactic quote:
+$`~x$ => $x$
+$`(x ~y)$ => $(list (quote x) y)$
+\end{itemize}
+
+\section{Clojure programming}
+\subsection{Contemporary editors}
+Despite Lisp syntax being hard for newcomers to understand, Clojure is considered one of the most efficient languages for programmers {Citation?}. Two factors are responsible for that: functional programming and integration with REPL. Virtues of the former were described in the previous chapters, the latter will be discussed in this one. REPL stands for Read-Eval-Print Loop. Much like command line shell, or interactive shells in other languages, it allows the programmer to send the code he’s been working on and observe the results directly, without having to execute the whole program. The main difference is what can be read and what can be executed. Due to Lisp’s syntax, Clojure’s REPL can read, eval and print arbitrary S-expression. Non-Lisp interactive shells need to differentiate between expressions and statements, which can lead to non-intuitive behaviour {Show some JS quirks?}. The second difference is integration with editors. It’s common for Clojure programmers to have an editor integration, which allows them to send arbitrary parts of the currently edited file to REPL and observe the results {Examples}. This results in better understanding of language and less bugs (due to ideally every part of code being tested during writing).
+
+\subsection{Editing}
+As mentioned previously, Clojure is edited as text. Due to the nature of S-expressions, this can prove difficult (keeping so many brackets paired can be troublesome). To mitigate this, most Clojure editors provide special shortcuts which help in editing S-expressions:
+\begin{itemize}
+  \item Slurp (forward/backward)
+(1 2 []) 3 -> (1 2 3 [])
+1 ([] 2 3) -> ([] 1 2 3)
+  \item Barf (forward/backward)
+(1 2 3 []) -> (1 2 []) 3
+([] 1 2 3) -> 1 ([] 2 3)
+  \item  Transpose
+(1 [] 2) -> (2 [] 1)
+  \item Wrap
+println[] -> (println[])
+  \item Unwrap
+(println[]) -> println[]
+Mostly used to inline expressions:
+(println (1 2 3 [])) -> (println 1 2 3[])
+\end{itemize}
+
+The pain of editing S-expressions can be largely mitigated by not manipulating text. When S-expressions are structured visually, editing them might be as easy as drawing a new arrow, or moving a box. This would largely remove problems with syntax and allow programmers to focus on the semantics of the program.
+
+\section{Jarvis: Visual Clojure editor}
+\subsection{What is its purpose?}
+Jarvis is a hybrid between Visual Programming Environment and Language. It uses Clojure as its textual representation (so it’s not strictly a new language), but presents it in a drastically different way, suitable for manipulation with mouse or gestures. It strives to make Clojure easier for a novice programmer, present the code in a more readable and easier to modify form, provide feedback to the programmer about potential errors and make programming with REPL easier, by providing the ability to directly evaluate expressions. It is implemented as a part of this thesis and it can be downloaded from its webpage {https://scoiatael.github.io/Jarvis }.
+\subsection{Programming with Jarvis}
+Ideally, the coding cycle in Jarvis would be similar to that of other Clojure editors:
+\includegraphics[scale=0.5]{img/Programming.png}
+
+First, a programmer composes a code from already available functions (either defined in his project, or other libraries). Then the code is sent to the interpreter (inside the editor) and the results are displayed for inspection. Integrating evaluation into the coding cycle enables the programmer to immediately see the results and find the errors. It also enables him to experiment and even find documentation in REPL, instead of using external tools. Then, the errors can be fixed or a different modification can be introduced. This approach poses several challenges. First of all, already defined functions should be listed for the programmer and there should be a possibility of easily adding them to the currently composed code. Secondly, evaluation and displaying of the results should be built into the editor. Furthermore, there should be a way of editing an already evaluated code and re-evaluating it. Last but not least, all this code must be presented in a readable manner, as a diagram of sorts.
+\subsection{Representation}
+The most basic function of Jarvis is displaying the code. Language primitives are shown as a text {image}, while S-expressions are represented as boxes {image}. Colours are used to signify different types. This creates a representation consisting of embedded boxes, textual nodes as leaves. For example, a function’s definition (defn inc [num] (+ num 1)) looks like a box with two smaller boxes inside {image}. This has an advantage of presenting S-expressions in a concise way, which is more readable than parentheses.
+\subsection{Modification}
+Modification of a code is implemented as two modes - normal and pasting. It works in a fashion similar to drag \& drop - the first click picks up an element and the editor enters the pasting mode. The second click inserts the element into given place and the editor returns to the normal mode {TBD: Changes?}. In the pasting mode possible placement options are shown as buttons {image}. All clickable elements are highlighted when cursor hovers upon them {image}. Additionally, in the pasting mode, options related to the currently picked up node are available {image} - this enables the user to delete it or evaluate it.
+\subsection{Evaluation}
+Code evaluation is solved by providing a second tab in which user can see all previously evaluated expressions. Upon clicking the evaluation button, the node is moved to the evaluation tab and the results of evaluating the expression are displayed {image}. When a user clicks a node in the evaluation tab, it’s moved back to the editing tab. This allows the user to rapidly switch between the tabs, running and fixing code.
+\subsection{Pros and cons of current solution}
+Switching between the normal and “pasting” representation is not very intuitive - the code appears to “jump”. An alternative solution might be to show placement locations at all time - this has the disadvantage of requiring a much larger screen in the normal mode. Another possibility could be to open a new window for pasting. For example, the user first picks into which top-level expression he wishes to insert the code, which opens a window with only placement possibilities inside that expression shown. 
+Moving the code between evaluation and editing tabs might also be surprising to some users - they might think that the code sent to evaluation is somehow lost. Another solution might be to use more tabs - one for editing, one for evaluation, and one for the finished code. The user could then either send code to evaluation, or mark it as finished. From the evaluation tab, the code could be copied to either editing or finished (to preserve REPL history) and from finished be moved to editing or evaluation. This has an unfortunate disadvantage of cluttering the interface with unnecessary movement actions (with a possibility of errors and confusing the user).
+Another confusing part about the evaluation are side-effects in REPL - if a user evaluates a code, then moves it to editing, REPL is not cleaned up. All side-effects accumulate, and thus re-evaluating even the same code might yield different results. To solve this, user can force REPL to restart (thus cleaning it up). An alternative solution might involve a wrapper around REPL, which would gather all side-effects of evaluation and clean if a node is sent back to editing.
+
+\section{Jarvis implementation}
+\subsection{General Architecture}
+\subsubsection{Why in Clojure?}
+The biggest advantage of using Clojure for this project are users understanding the codebase. Writing an editor for Clojure in Clojure ensures that if someone uses it, they can also contribute to this project. Potentially, this could mean that even a newcomer might write an extension to Jarvis in Jarvis itself. Because of the dynamic nature of the language, this could even lead to people modifying their editors at run-time! This might make the editor as extensible as Vim or even Emacs.
+Secondary gains include a strong suite of existing libraries (which will be presented later) and being a functional language. In this chapter, I’d like to showcase and justify the architectural decisions behind Jarvis.
+\subsubsection{Single source of truth}
+State of the whole application is contained in one single Clojure atom, which can be thought of as a database. This way every change in the application maps to a change in this atom. Why is it handy?
+Debugging. If a list of actions leads to a bug showing up, and changes in the state are recorded, the bug can easily be reproduced. Those diffs (changes) can be serialized and sent to the programmer for debugging purposes. 
+Understanding the application. Almost every complex application is a state machine under the hood, but very few are explicit about it. With the atom containing the whole state of application, such is the case with Jarvis. It means you can understand the logic behind the whole application by reading the list of state transitions.
+Ease of programming. Having a centralized state means that almost every part of the application can be a function of this state. Views are functions from state to representation that user sees (HTML in this aspect). User action handlers are functions from state and action to new state.
+
+\subsubsection{One-way dataflow.}
+Currently, one of the widespread architectures is Model - View - Controller. Model is responsible for business logic, View for user interaction, and Controller is a bridge between them \ref{mvc}. This has numerous disadvantages as an architecture for a big application, because it was meant for small components {https://dl.acm.org/citation.cfm?id=50759}!
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/MVC}
+  \caption{Model - View - Controller}
+  \label{mvc}
+\end{figure}
+
+Recently, it has been criticized and an alternative is being searched for. One proposal comes from Facebook: it’s Flux architecture. It can be summed up as an unidirectional data flow. In traditional MVC one action might affect multiple models, which in turn might cause more updates in other models. These cascading updates make the application harder to understand. Flux takes an approach that bears resemblance to functional reactive programming. View renders denormalized data which is obtained from the current application state. Ideally, both views and query for data would be declarative. User (and external inputs, like REPL) triggers actions, which are in turn reconciled with current application state - triggering an update of views \ref{oneway}.
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/OneWay}
+  \caption{One way data flow}
+  \label{oneway}
+\end{figure}
+
+\section{Implementation internals}
+\subsection{Technologies:}
+Jarvis is build on top of technologies that a modern editor, Atom, {https://atom.io/} uses. These technologies consist of Chromium rendering engine and Node.js runtime - known as Electron {http://electron.atom.io/}. They allow creating cross-platform desktop applications using Web technologies - HTML, JavaScript and CSS. To avoid actually having to write HTML, CSS and Javascript, ClojureScript is used instead. It’s Clojure compiled to Javascript. Coupled with extensions allowing for CSS and HTML generation, it allows to write a whole desktop application using the best Web libraries in only one language - Clojure. 
+Most of the architectural boilerplate is provided by Re-frame {https://github.com/Day8/re-frame}. Efficient, declarative views are provided by Reagent  {https://github.com/reagent-project/reagent}, which uses Facebooks React {https://facebook.github.io/react/} under the hood. CSS is generated using Garden {https://github.com/noprompt/garden}. Other used libraries include:
+\begin{itemize}
+  \item Re-com {https://github.com/Day8/re-com} - components for using with Reagent,
+  \item Figwheel {https://github.com/bhauman/lein-figwheel} - Hot code reloader for development,
+  \item Schema {https://github.com/plumatic/schema} - data description and validation library.
+\end{itemize}
+
+\subsection{Limitations}
+In its current form, Jarvis has several limitations. Some of them exist due to the nature of the language, and overcoming others would simply take too much time to implement. One of the latter cases is the simplicity of the checker - although Clojure’s basic syntax is just S-expressions, there is a number of predefined functions commonly used - for example defn used for function definition. In its most basic form, it accepts a symbol, then a vector of symbols and an S-expression:
+
+\includegraphics[scale=0.5]{img/sexp}
+If a part is omitted, runtime error is guaranteed. To improve user experience, the editor could detect errors in such forms. Such checker could also find undefined variables and warn about their usage. It could also check arity of functions. Currently, such functionality in Jarvis is implemented in a proof-of-concept manner - it can detect only the most basic forms of defn, fn, def, let. These cover most of Clojure “types” of introducing scope and defining variables and functions.
+Another big limitation is the lack of support for data structures other than list and vector. This doesn’t limit functionality (as any Clojure program can be written by using their constructors, instead of literals - e.g. (hash-map 1 2) instead of {1 2}), but doesn’t provide good user experience. Same goes for reader forms - for example, lambda-functions syntax (\#(+ 1 2) instead of (fn [] (+ 1 2))) is not parsed correctly. Third limitation is the lack of support for macro operators. Although instead of using ‘ (quote) user can user quote function, there is no such equivalent for ` (syntax quote), ~ (unquote) and ~@ (unquote splice). Additionally, Jarvis has no knowledge of macros - they can be used and defined, but that’s hard due to the quoting limitations. Jarvis has also no knowledge of Clojure module system - it currently only lists functions in the current namespace, and these in `clojure.core`. Users would greatly benefit from Jarvis being able to list all of the namespaces available, adding them to the current project, and being able to search and insert variables from any namespace found.
+\subsection{Possibilities of future extensions}
+There are several possibilities of extending Jarvis in the future, besides removing the limitations listed in the previous section. The first of them is embedding a Clojure interpreter inside Jarvis, so that it can be directly extended in Clojure - much like Emacs and ELisp work right now. This would allow to add new features and modify existing ones at runtime, allowing users to create extensions (instead of having to add new features directly). Over the years, this has proved a sound strategy for open source editors. Another experiment could be different code representations - current box representation isn’t innovative - tree or graph representation might turn out to be more readable. Even switching between them at run-time could be implemented. Yet another possibility is creating a mobile (targeted for tablets) version of Jarvis. This would require using embedded Clojure instead of running REPL (as it is right now), but would enable a whole new range of devices for which Jarvis would be uniquely suited because of touchscreens. Improving code manipulation is also an option - the current drag \& drop interface is not very user-friendly. If combined with more complex checkers, one might detect in which points code can (or should) be added and provide easy visual cues for users.
+
+\section{Comparison between Jarvis and other VPLs.}
+\subsection{Scratch {https://wiki.scratch.mit.edu/wiki/Scratch}}
+Scratch is a VPL designed for educational purposes by the Lifelong Kindergarten Group at the Massachusetts Institute of Technology (MIT). It uses a block-based approach. Individual elements of the language are represented as pieces of jigsaw puzzles and fit together in different combinations. Drag \& drop is a primary method of assembling them, with details tweaked by secondary editors (like paint or sound editor) and text (for numbers and strings).
+
+\subsection{Blueprints {https://docs.unrealengine.com/latest/INT/Engine/Blueprints/}}
+Blueprints Visual Scripting is part of Unreal Engine 4, developed by Epic Games. It aims to help designers and developers help in processes that have traditionally been done by programmers. Interface is node-based - each one represents a part of the language (like a function call), with wires connecting them. Wire can represent either control or data flow, with both being present in a single script. For example “if” has one control wire and one data wire coming in (execution flow and boolean value), and two control wires coming out (one for “then”, and one for “else” flow). Developers are expected to manipulate nodes and wires with mouse, while underlying implementation for nodes should be provided by programmers as text.
+
+\subsection{Features}
+\begin{table}[hbt]
+  \begin{tabular}{l|ccc}
+    & Jarvis & Scratch & Blueprints \\
+    \hline
+    REPL integration & + & + & - \\
+    Representation & Boxes & Interlocking boxes & Wires \\
+    Holes & - & + & - \\
+    Comments & - & - & + \\
+    Manual placement & - & + & + \\
+    Functions & + & +/- & + \\
+    Modules & + & - & + \\
+  \end{tabular}
+  \caption{}
+\end{table}
+Features:
+\begin{itemize}
+  \item REPL integration - possibility to execute programs from editor,
+  \item Representation - how program is presented,
+  \item Holes - some editors suggest missing pieces (e.g. function arguments, missing instruction blocks),
+  \item Comments - programmers tend to leave additional information to future readers,
+  \item Manual placement - whether the editor itself, or the user, places elements.
+  \item Functions - ability to group and parametrise groups of code,
+  \item Modules - ability to further cluster the code in named groups (and possibly limited visibility outside).
+\end{itemize}
+\subsection{Using HCI approach}
+While a list of features helps to understand what are the exact low-level differences between the editors, in order to better understand what makes one better or worse a different kind of approach is needed. In his work Green {Citation?} presents a framework called “cognitive dimensions of notations” for assessment of cognitive artefacts. It can be used to compare VPLs [cite Green96UsabilityAnalysis]. In this section, I’ll use this framework to compare Jarvis with Scratch and Blueprints.
+\subsubsection{Abstraction Gradient}
+[cite Green96UsabilityAnalysis] defines abstraction as:
+Grouping of elements to be treated as one entity, whether just for convenience or to change the conceptual structure.
+This criterium segregates interfaces based on the flexibility of the representation and the requirements on the programmer for adapting. For example, simple control flow diagrams that are often used in place of a pseudo-language to define an algorithm, and state machines, can be categorised as abstraction-hating. Using them, meaning can be defined quickly, but adding new elements is challenging and requires a lot of explaining. On the other end of the spectrum are interfaces which require programmers to define their own abstractions (and thus make each program a unique challenge to a newcomer). Functional languages are the prime example. Each new function acts as an abstraction. The program itself is built as an abstraction over more abstractions (akin to a pyramid). This category is named abstraction-hungry. Middle-ground between them is labeled as abstraction-tolerant (Pascal or Python are the prime examples).
+Scratch is abstraction-tolerant - new abstractions can be defined in form of custom blocks, but a novice programmer can easily go on without doing so. On the other hand, both Blueprints and Jarvis are abstraction-hungry. That’s caused by both node (in Blueprints) and box (in Jarvis) being an abstraction over some function. Both approaches are very similar from the following point of view. A novice programmer has some traditional primitives (conditionals, loops, arithmetic) available, but is expected to build a couple of his own abstractions on top of other ones.
+\subsubsection{Closeness of Mapping}
+Solving a problem can be easy in terms of a problem world, but very hard in terms of a program world. For example, turning car right is easy when you are a driver, however writing a program that turns car right depends on the abstraction given to you by both your language and interface of a car programming. Domain specific languages are designed to solve this problem - to allow programming in terms of the problem world. VPLs are also pretty good at this, because they are often developed to map to one domain. Scratch has a clearly defined problem world (moving objects on screen) and its mapping is very close, with (almost) every piece of puzzle representing some action in the problem world. For general-purpose languages, that evaluation is much harder. It requires thinking about a very simple problem world and considering how many language primitives are needed to solve a problem there. 
+{screenshot, compare blueprints with Jarvis}
+Here, Jarvis seems to have the upper-hand. Blueprints require additional wiring of control flow, and many nodes associated with manipulation of local variables.
+\subsubsection{Consistency}
+A notion of language being consistent or not is hard to define objectively. Inconsistencies for end-users might arise as a result of a very consistent approach from the language designer. One might argue that the simplest way to avoid such inconsistencies is making the language as simple as possible. The comparison of Scratch, Blueprints and Jarvis does support that claim: all three have a much simpler structure than textual languages and no inconsistencies are present. Jarvis (because of underlying Clojure) seems to be the best - with only a handful of primitives, consistency of everything else is up to the programmer. Scratch has more language elements, which are grouped by type (represented by shape) and category (represented by colour). Blueprints is built on top of primitives provided by the programmer, with only a representation being defined.
+\subsubsection{Diffuseness/Terseness}
+This criterium is hard to measure independently of Closeness-of-Mapping, as language closer to the problem world will require less primitives to solve it. Another problem is that the ideal language cannot be either too diffuse or too terse. If too terse, the programmer will have a hard time finding bugs, as they may be virtually invisible. If too diffuse, programmer has to read and memorise a lot to understand what’s happening. For VPLs this is especially important, as the total amount of screen space needed to represent a program should be taken into account. Scratch is by far the most terse of the three compared. Jarvis and Blueprints require much more screen space - with Blueprints using different tabs for each function and supporting multiple levels of zoom to allow the programmer to either inspect the details or focus on a bigger picture. Jarvis supports two views - one for program parts being currently edited (which takes more space, to assist in editing) and one for parts that have already been executed (which takes less space, to make reading easier).
+\subsubsection{Error-proneness}
+Generally, VPLs are much less prone to syntax errors than traditional textual languages. Their representation makes it virtually impossible to make a syntax error. Jarvis uses boxes to save the programmer from trouble with parentheses, the Scratch jigsaw puzzle makes it impossible to make an error, and Blueprints will not allow the programmer to wire the program in a wrong way.
+\subsubsection{Hard Mental Operations}
+Conditionals and boolean arithmetic are a prime example of a notation gone wrong. It’s easy to express an easy-to-grasp idea in an incomprehensible way. Surprisingly, [cite Green96UsabilityAnalysis] shows that although diagrams look like a good way to avoid such problems, they often fail to do so. Even if shown as a diagram, conditionals imbued in more conditionals resemble a visual exercise on a formal logic course , not something easy to grasp. Scratch suffers the most from this, as it uses imperative programming as its base. Blueprints (with Object Oriented programming) are a bit better, and Jarvis (with functional programming) fares best. That is solely caused by how often that kind of hard mental operations happen in underlying programming thinking patterns and not by representation.
+\subsubsection{Hidden Dependencies}
+Hidden dependencies are
+Relationships between two components such that one of them is dependent on the other, but that the dependency is not fully visible.  [cite Green96UsabilityAnalysis]
+They are caused by side-effects (such as assigning a value to a shared variable). Generally, VPLs fare better than textual languages when it comes to low-level (local) dependencies - simply because they have more means to visualise that dependency. When it comes to high-level dependencies, they don’t seem to fare any better. So is the case with Scratch and Blueprints, with Jarvis showing more promise. Both Scratch and Blueprints have global variables, and no good support for showing where they are modified. Jarvis (thanks to Clojure), has a better model for handling side-effects, but no means of visualising it.
+\subsubsection{Premature Commitment}
+When solving problems, the programmer should worry about the problem world. Many programming languages pose many requirements on the structure of the program, making working with them tiring, as programmer has to cope with a lot of additional guessing ahead. This criterion measures how much additional guesswork is associated with solving problems in the given language. Generally, VPLs using 2D spatial representations tend to pose less difficulties than textual languages, but are not without problems themselves. For box-and-wire languages, the placement of boxes with a minimum number of wires crossing requires a guess-ahead. Such is the case with Blueprints. For Scratch, the problem is with placing puzzles to group them and leaving enough space for subproblems. The Jarvis’ problem is similar to the problems of textual languages - the order of evaluation. Parts sent to REPL first are shown first and there’s no way of re-ordering them (besides moving them back to editing and evaluating later, which places them at the end). This makes leaving holes for subproblems impossible, thus the whole program resembles a tree flattened in a prefix fashion. Imposing some structuring on such list is challenging, to say the least.
+\subsubsection{Progressive Evaluation}
+Some languages forbid running programs which are not complete. Other - mostly dynamic interpreted languages allow running parts of a program. Ideally, the programmer can write a program by interacting with REPL and saving parts which are working. Such is the case with Jarvis. The program is constructed by running small expressions and composing them to solve bigger problems. Scratch also allows running expressions, but results are shown by changing the state of stage - to see them again, you need to re-run the expression. Blueprints doesn’t allow running any expressions because everything is wired to a global stage. You can only run the whole game and observe what changes were introduced by your code modification.
+\subsubsection{Role-expressiveness}
+Generally, programmers agree that some languages are harder to read than others. Unfortunately, there’s no consensus on which of them. C-programmer might argue that LISP is an unreadable mess of parentheses, while his adversary would say that the bloated syntax of C makes understanding even simplest programs challenging. To avoid this argument, one can consider how easy it is to understand what a given expression is for. [cite Green96UsabilityAnalysis] claims that
+Role-expressiveness is presumably enhanced by the use of meaningful identifiers, by well-structured modularity, by the use of secondary notation to signal functionally-related groupings, and by the presence of ‘beacons’ that signify certain highly diagnostic code structures.
+Scratch offers no means of modularity besides defining functions and no secondary notation besides the placement of blocks. There are also no diagnostic code structures. Blueprints allows to add comments on a group of nodes. Jarvis, on the other hand, has no support for comments{?}, but allows using Clojure pre- and postconditions to annotate functions with extra information about arguments and returned values. This can be additionally extended by using proper Clojure libraries (which can add such features as types of functions).
+\subsubsection{Secondary Notation and Escape from Formalism}
+As discussed before, main secondary notation for VPLs is the spatial placement of items. That is only possible in Scratch, with Blueprints supporting additionally comments. In Jarvis, the programmer has no secondary means of conveying information. Indenting and manual placement of items are impossible, comments are not supported. The programmer is entirely dependent on language features.
+\subsubsection{Viscosity: resistance to local change}
+Programmers tend to make mistakes. Some are easier to fix than others, which often depends on the language. The biggest issue of Scratch is the order in which items have to be moved (generally, moving one item moves the rest below it). This sometimes imposes a big amount of changes needed to move just one block. Blueprints has a problem with wiring - although wires are placed automatically, changing a block can require moving a lot of other blocks to make the program readable again. Jarvis has a problem with shuffling blocks{?}.
+\subsubsection{Visibility and Juxtaposability}
+This criterion measures how easy it is to just see what the program does, without much mental work. This is tightly coupled with the ability to see different parts of the program at the same time.
+Neither Scratch, Blueprints, nor Jarvis offer such a thing. Overall, all three VPLs make programmer’s life hard in this aspect, which is especially shameful for Jarvis, because most Clojure editors allow instantly looking up the definition of any symbol. Code navigator would also be a big improvement here.
+
+\section{Comparison between Jarvis and mainstream Clojure editors}
+\begin{table}[hbt]
+  \begin{tabular}{l|cccc}
+    & Jarvis & Emacs & Lighttable & VIm \\
+    \hline
+    REPL & + & + & + & - \\
+    S-Exp editing & + & + & - & - \\
+    Project awareness & - & + & +? & +/- \\
+    Refactoring & - & + & ? & ? \\
+    Syntax check & +! & + & ? & ? \\
+    Autocomplete & + & + & + & + \\
+    Syntax highlighting & +! & + & + & + \\
+    Automatic indentation & +! & + & + & + \\
+  \end{tabular}
+  \caption{}
+\end{table}
+Features:
+\begin{itemize}
+  \item REPL - possibility to execute programs from editor,
+  \item S-expressions editing - possibility to manipulate S-expressions directly,
+  \item Project awareness - support for multi-file projects,
+  \item Refactoring - support for refactoring (renaming, extracting function definitions, inlining functions).
+  \item Syntax check - ability to detect and present possible errors,
+  \item Autocomplete - ability to suggest identifiers (to avoid typing full names),
+  \item Syntax highlighting - color-coding different language parts (identifiers, brackets),
+  \item Automatic indentation - helps programmer with structuring the code.
+\end{itemize}
+
+\section{Summary}
+Approach to Visual Programming Languages spearheaded by Jarvis bring promise for a better kind of Visual Programming Languages - ones that might be suitable for programming by means more relevant in era of touchscreens. Despite being relatively very simple, it holds its own against projects created by teams of professional programmers.
+
+
+\end{document}
