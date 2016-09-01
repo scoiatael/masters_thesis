@@ -26,6 +26,8 @@
 
 \usepackage{natbib}
 
+\usepackage{wrapfig}
+
 \title{Application of functional programming to construction of visual
   programming language}
 \author{Łukasz Czapliński}
@@ -463,6 +465,169 @@ code.
   \includegraphics[scale=0.3]{img/j-eval_f}
   \caption{Evaluation tab in Jarvis}
   \label{j-eval}
+\end{figure}
+
+\subsection{Installation}
+Jarvis is available for several platforms from website
+\url{https://scoiatael.github.io/Jarvis}. These include OSX, Windows (both
+tested), and several Linux distributions (not tested, with underlying build tool
+still not production-ready) (\ref{j-inst}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-inst}
+  \label{j-inst} 
+  \caption{Download page for Jarvis}
+\end{figure}
+
+In order to evaluate code, Jarvis requires installation of Leiningen
+(\url{https://leiningen.org/}).
+If installation is not found, error message is shown during startup
+(\ref{j-error}). Most of functionality will continue to work, but any attempts
+to evaluate code will result in an error.
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-error}
+  \label{j-error}
+  \caption{Leiningen not found error}
+\end{figure}
+
+\subsection{Example}
+In this section we'd like to present writing simple Fibonacci function in Jarvis.
+After starting Jarvis, user is presented with empty screen. He can open file, or
+start writing code (\ref{j-startup}). 
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-startup}
+  \label{j-startup}
+  \caption{Empty view after opening Jarvis}
+\end{figure}
+
+New elements can be added with \textit{Add element} button (\ref{j-add}).
+
+\begin{figure}
+  \includegraphics[scale=0.3]{img/j-add}
+  \label{j-add}
+  \caption{Add element button}
+\end{figure}
+
+It opens a menu with a searchable list of all functions in clojure.core, all
+functions defined in current namespace, some commonly used constructs, and text
+box which user can utilize to add custom elements (\ref{j-add_box}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-add_box}
+  \label{j-add_box}
+  \caption{Add element menu}
+\end{figure}
+
+We'll use it to add \lstinline|defn| - function definition. This will create a
+node which corresponds to head of function definition. It requires also a name of
+a function and vector of arguments. We'll use text box to add node containing
+\lstinline|fib| - function name, \lstinline|[]| - empty vector of function
+parameters, and \lstinline|i| - sole function argument (\ref{j-fib_parts}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-fib_parts}
+  \label{j-fib_parts}
+  \caption{Basic parts of \lstinline{fib} function definition}
+\end{figure}
+
+Now we can start gluing these parts together. First we focus \lstinline|i| node
+with single click (\ref{j-cut}), and then use \textit{Cut} to remove it from its current
+position and enter pasting mode (\ref{j-pasting}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-cut}
+  \label{j-cut}
+  \caption{Cut button}
+\end{figure}
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-pasting}
+  \label{j-pasting}
+  \caption{Pasting mode}
+\end{figure}
+
+In pasting mode, we can click inside green square (empty vector) to insert
+\lstinline|i| inside (\ref{j-i-insert}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-insert-click}
+  \label{j-i-insert}
+  \caption{Inserting \lstinline{i} into vector}
+\end{figure}
+
+This finishes our vector of parameters (\ref{j-inserted}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-inserted}
+  \label{j-inserted}
+  \caption{Finished vector of parameters}
+\end{figure}
+
+Using the same mechanism, we finish head of function definition. Then we use
+\textit{Eval}  button to check for potential errors (\ref{j-defn-eval}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-defn-eval}
+  \label{j-defn-eval}
+  \caption{Eval button}
+\end{figure}
+
+In evaluation window we see that no errors were emitted (\ref{j-defn-eval-result}) - so far our function
+definition is correct.
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-defn-eval-result}
+  \label{j-defn-eval-result}
+  \caption{Evaluated function definition}
+\end{figure}
+
+Now we click it to return to \textit{Edit} tab. In there, we add simple
+\lstinline{if} element (\ref{j-if}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-if}
+  \label{j-if}
+  \caption{Simple \lstinline{if} node}
+\end{figure}
+
+After moving it inside \lstinline{defn} we can again check if no errors were
+made (\ref{j-if-check}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-if-check}
+  \label{j-if-check}
+  \caption{Evaluated definition with \lstinline{if} body}
+\end{figure}
+
+Then we proceed to creating second branch of \lstinline{if} expression -
+recursive call to \lstinline{fib} (\ref{j-fib-rec}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-fib-rec}
+  \label{j-fib-rec}
+  \caption{\lstinline{fib} function ready}
+\end{figure}
+
+It seems our function is done - now we can again evaluate it, and check if it
+works. We create simple invocation - \lstinline{(fib 0)}, and evaluate it (\ref{j-fib-err}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-fib-err}
+  \label{j-fib-err}
+  \caption{Stack overflow error in testing}
+\end{figure}
+
+It seems there's and error in our definition - comparison is wrong! We need to
+change \lstinline{>} to \lstinline{<}. This can be done easily by adding new
+element via text box, cutting it and pasting in place of the other. Then we can
+check that function works as intended (\ref{j-fib-works}).
+
+\begin{figure}[hbt]
+  \includegraphics[scale=0.3]{img/j-fib-works}
+  \label{j-fib-works}
+  \caption{Final tests of our Fibonacci function}
 \end{figure}
 
 
