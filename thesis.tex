@@ -326,6 +326,7 @@ every part of code being tested during writing).
 
 
 \subsection{Editing}
+\label{sec:editing}
 As mentioned previously, Clojure is edited as text.
 Due to the nature of S-expressions, this can prove difficult (keeping so many
 brackets paired can be troublesome).
@@ -919,48 +920,66 @@ underlying implementation for nodes should be provided by programmers as text.
 \end{figure}
 
 \subsection{Features}
-\begin{table}[hbt]
-  \begin{tabular}{l|ccc}
-    & Jarvis & Scratch & Blueprints \\
-    \hline
-    REPL integration & + & + & - \\
-    Representation & Boxes & Interlocking boxes & Wires \\
-    Holes & - & + & - \\
-    Comments & - & - & + \\
-    Manual placement & - & + & + \\
-    Functions & + & +/- & + \\
-    Modules & + & - & + \\
-  \end{tabular}
-  \caption{Comparison between Jarvis, Scratch and Blueprints}
-\end{table}
 
 \subsubsection*{REPL integration}
-possibility to execute programs from editor,
+Many traditional editors (like Emacs, VIm, or Lighttable) offer possibility to
+execute parts of program directly from editor, increasing programmers ability to
+debug program before its fully written.
+Both Jarvis and Scratch have the same capability, but Blueprints does not
+possess it. That is caused by Unreal editor model of creating full scenes before
+running it. Possibly professional programmer would only need to debug
+scene-by-scene, instead of parts of programmer, but for a novice this proves
+difficult.
+
 \subsubsection*{Representation}
-how program is presented,
+Jarvis represents program as series of boxes, each representing data structure
+in Clojure. Scratch uses similar representation --- expressions are boxes, and
+those which can interact (as for example conditional expression, and boolean
+condition) can interlock, letting programmer intuitive understanding of
+underlying type system. Blueprints uses nodes (represented by boxes) connected
+by wires, which represent data and control flows. This offers even more
+understanding of language to programmer, but is quite tricky to manipulate and
+get used to.
+
 \subsubsection*{Holes}
-some editors suggest missing pieces (e.g. function arguments,
-missing instruction blocks),
+Both Scratch and Blueprints offer suggestions where some pieces may be missing
+(by showing respectively empty holes and dangling endings). Of these two Scratch
+is better. Jarvis does not offer any such insight --- that is due to Clojure
+functions having possibly multiple arities. Such errors are left to be caught
+during evaluation in REPL.
+
 \subsubsection*{Comments}
-programmers tend to leave additional information to future
-readers,
+Comments increase readers understanding of program. Blueprints allow placing
+comments on groups of nodes. Scratch and Jarvis have no such capability.
 
 \subsubsection*{Manual placement}
-whether the editor itself, or the user, places
-elements.
+In both Blueprints and Scratch, programmer is expected to place parts of
+program manually. That creates a potential source of problems --- programmer has
+to worry how his changes would affect placement of whole program. In Blueprints,
+this problem is partially alleviated by automatic re-wiring --- if two nodes
+were connected, programmer can freely move each of them, and they will still be
+wired together. Jarvis has fully automatic placement, dictated by structure of
+underlying Clojure program. 
 
 \subsubsection*{Functions}
-ability to group and parametrise groups of code,
+Ability to group and parameterize code gives programmer very important tool to
+avoid duplication and make changes easier. All three editors offer such
+possibility, with least importance given by Scratch (due to its simplicity) and
+most by Jarvis (due to Clojure being a functional language).
 
 \subsubsection*{Modules}
-ability to further cluster the code in named groups (and
-  possibly limited visibility outside).
+Building on what functions offer, modules help organize group of functions.
+Scratch doesn't possess modules, but Jarvis and Blueprints do. Support for them
+in Jarvis is limited (programmer can import and use functions from other
+modules, but they are listed in list of currently available functions).
+Blueprints has no such problems --- programmer can easily see and use functions
+from other modules.
 
 \subsection{Using HCI approach}
 While a list of features helps to understand what are the exact low-level
 differences between the editors, in order to better understand what makes one
 better or worse a different kind of approach is needed.
-In his work Green {Citation?} presents a framework called “cognitive dimensions
+In his work Green presents a framework called “cognitive dimensions
 of notations” for assessment of cognitive artefacts.
 It can be used to compare VPLs~\cite{Green96UsabilityAnalysis}. In this section,
 I’ll use this framework to compare Jarvis with Scratch and Blueprints.
@@ -1191,42 +1210,67 @@ looking up the definition of any symbol.
 Code navigator would also be a big improvement here.
 
 \section{Comparison between Jarvis and mainstream Clojure editors}
-\begin{table}[hbt]
-  \begin{tabular}{l|cccc}
-    & Jarvis & Emacs & Lighttable & VIm \\
-    \hline
-    REPL & + & + & + & - \\
-    S-Exp editing & + & + & - & - \\
-    Project awareness & - & + & +? & +/- \\
-    Refactoring & - & + & ? & ? \\
-    Syntax check & +! & + & ? & ? \\
-    Autocomplete & + & + & + & + \\
-    Syntax highlighting & +! & + & + & + \\
-    Automatic indentation & +! & + & + & + \\
-  \end{tabular}
-  \caption{Comparison between Jarvis and other Clojure editors}
-\end{table}
-Features:
-\begin{itemize}
-  \item REPL - possibility to execute programs from editor,
-  \item S-expressions editing - possibility to manipulate S-expressions
-    directly,
+In this section we'll compare Jarvis with other editors commonly used to write
+Clojure programs: VIm, Emacs, and Lighttable.
+\subsection{VIm}
+VIm (\url{http://www.vim.org/}) is small but easily extensible editor, first
+released in 1991. Clojure editing is improved by several plugins --- some of
+them provide REPL support, other offer better means of editing S-expressions.
+\subsection{Emacs}
+Emacs (\url{https://www.gnu.org/software/emacs/}) is surprisingly not a text
+editor --- it is LISP interpreter, with text editing being only one of its
+functions. As with VIm, Clojure editing is provided by many plugins, which often
+build on top of one another.
+\subsection{Lighttable}
+Lighttable (\url{http://lighttable.com/}) is a ``next generation code editor''.
+It tightly integrates with language edited, providing means to easily run and
+watch program being executed from editor. One plugin provides integration of
+Clojure into Lighttable.
+
+\subsubsection*{REPL integrations}
+All of compared editors possibility to execute parts of program directly from editor.
+
+\subsubsection*{S-expressions editing}
+All of compared editors offer possibility to manipulate S-expressions (using
+amongst other techniques described in [Section~\ref{sec:editing}]).
     
-  \item Project awareness - support for multi-file projects,
+\subsubsection*{Project awareness}
+Emacs, Lighttable and VIm support multi-file projects, by providing means of
+easily switching between files and cross-referencing functions. Jarvis focuses
+and editing one file, and offers means of switching easily (besides opening new
+files, which leaves current file altogether --- switching quickly is impossible).
     
-  \item Refactoring - support for refactoring (renaming, extracting function
-    definitions, inlining functions).
+\subsubsection*{Refactoring}
+All three textual editors offer support for refactoring (renaming, extracting function
+definitions, inlining functions). Jarvis has no such capability, although
+programmer should be able to add it quite easily (via REPL integration, similar
+to how it is implemented in VIm and Emacs).
+
     
-  \item Syntax check - ability to detect and present possible errors,
+\subsubsection*{Syntax check}
+All textual editors offer ability to detect and present possible errors, in
+varying degrees --- with most basic being detection of misplaced parentheses.
+In this aspect Jarvis proves superior --- programmer simply cannot make such
+mistake. Jarvis also tries to analyze code and show possible semantic errors
+with help of REPL.
     
-  \item Autocomplete - ability to suggest identifiers (to avoid typing full
-    names),
+\subsubsection*{Autocomplete}
+Most textual editors currently in use have ability to autocomplete identifiers
+(to avoid typing full names), either by scanning all words in current document
+or more sophisticated means. Jarvis connects to REPL and offers programmer list
+of functions available currently to him.
     
-  \item Syntax highlighting - color-coding different language parts
-    (identifiers, brackets),
+\subsubsection*{Syntax highlighting}
+Color-coding different language parts (identifiers, brackets) helps programmer
+in understand program structure. VIm, Emacs and Lighttable offer this, but
+Jarvis offers more --- it visualizes program as diagram, which adds another
+dimension to representation. This might prove especially important to novices.
     
-  \item Automatic indentation - helps programmer with structuring the code.
-\end{itemize}
+\subsubsection*{Automatic indentation}
+VPLs often place nodes automatically --- textual editors try to do the same by
+automatically indenting the code. It removes the need for programmer to
+structure the code by himself. It is present in Emacs, VIm and Lighttable, with
+Jarvis offering similar capability by placing all boxes automatically.
 
 \section{Summary}
 Approach to Visual Programming Languages spearheaded by Jarvis bring promise for
