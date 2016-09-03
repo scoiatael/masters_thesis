@@ -338,15 +338,16 @@ Slurp adds element to current S-expression by extending parentheses one element
 to right (forward) or left (backward).
 
 \begin{itemize}
-\item forward: \lstinline|(1 2 []) 3| $\Rightarrow$ \lstinline|(1 2 3 [])|
+\item forward: \lstinline|(1 2 [])  3| $\Rightarrow$ \lstinline|(1 2 3 [])|
 \item backward: \lstinline|1 ([] 2 3)| $\Rightarrow$ \lstinline|([] 1 2 3)|
 \end{itemize}
+(\lstinline{[]} is current cursor position.)
 
 \subsubsection*{Barf}
 Barf is opposite to slurp --- it removes element from current S-expression by
 moving parentheses left (forward) or right (backward).
 \begin{itemize}
-\item forward: \lstinline|(1 2 3 [])| $\Rightarrow$ \lstinline|(1 2 []) 3|
+\item forward: \lstinline|(1 2 3 [])| $\Rightarrow$ \lstinline|(1 2 [])  3|
 \item backward: \lstinline|([] 1 2 3)| $\Rightarrow$ \lstinline|1 ([] 2 3)|
 \end{itemize}
 
