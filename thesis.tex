@@ -31,7 +31,7 @@
 \usepackage{xcolor}
 
 \title{The application of functional programming to the construction of a visual
-  programming language}
+  programming environment}
 \author{Łukasz Czapliński}
 \date{\today}
 
@@ -41,15 +41,16 @@
 \subsection*{Abstract}
 Traditional programming methods are becoming increasingly disconnected from
 modern input methods, like touchscreens. An alternative --- programming with
-diagrams --- Visual Programming Languages has long existed, but received little
+diagrams, called Visual Programming Languages, has long existed, but received little
 attention. This
-thesis proposes an approach to representation of Clojure programming language,
-that allows manipulation both as text and as diagram. This
+thesis uses ideas inspired by functional programming to propose an approach to
+representation of Clojure programming language,
+that allows manipulation of program both as a text and as a diagram. This
 approach is implemented as Visual Programming Editor --- Jarvis.
 
 \section{Introduction}
-\subsection{Visual Programming Languages}
-Programming is an art of communication --- both with machine and with other
+\subsection{Visual Programming Languages (VPLs)}
+Programming is an art of communication --- both with a machine and with other
 people.
 To express algorithms in a machine-readable way, we use programming languages.
 When it comes to describing our ideas to other programmers, we often use
@@ -58,7 +59,7 @@ Diagrams are one of the most universal ones.
 Since the invention of graphical interfaces, we have been trying to apply
 similar means for communicating with the machine.
 
-Visual Programming Languages are one many of attempts to achieve this.
+Visual Programming Languages are one of many attempts to achieve this.
 Shapes, colours and text annotations are used to represent computer programs,
 instead of employing only formatted text.
 That representation is “first-class” --- users are expected to manipulate it
@@ -92,56 +93,67 @@ For a completely new paradigm to gain traction, current programmers would have
 to learn it.
 This would be even more painful than learning a new programming language, as
 syntax of most mainstream languages with textual representation is similar.
+
 Additionally, most of programming tools are specialised for manipulating text.
+If a language is text-based, then it can easily be presented, edited, stored and
+transmitted by multitude of different programs. If, on the other hand, a program
+is a diagram which can only be rendered by some specialised editor, it becomes
+much harder to collaborate on it with a group of people, and much harder to
+share it with other programmers.
 
+\subsection{Visual Programming Environments (VPEs)}
+Since the invention of Smalltalk, programming environments that married textual
+representation with graphical interface have been becoming more and more
+popular.
+Nowadays, powerful integrated development environments (IDEs), such as Visual
+Studio (\url{https://www.visualstudio.com/}) or IntelliJ IDEA
+(\url{https://www.jetbrains.com/idea/}) are commonly used.
 
-Currently, more reasons to develop visual programming begin to emerge.
-Keyboard, and later mouse, were traditionally used to interact with the machine.
+Their main advantage over visual programming languages is their versatility ---
+textual representation allowed them to gain popularity without forcing existing
+programmers to change habits, and allowed them to keep tools that support text.
+Their chief disadvantage is lack of flexibility. They are blurring lines between
+the editor and the language ---
+because new language features need new editor features, and so new IDEs dwarf
+the venerable
+Emacs (which was often accused of being nothing short of operating system).
+At the same time, textual representation forces need for keyboard, and doesn't
+allow experimenting with new input methods. Even mouse is only a secondary mean
+of interacting with editor. This stands in start contrast with how user
+interfaces are evolving right now.
+
 Nowadays, touchscreens are getting more and more attention --- they are currently
 the prime interface for smartphones.
 Thus, most young people are more familiar with them, and not mouse or keyboard.
 Text is easy to manipulate with keyboard, but hard to manipulate with gestures ---
 visual programming would be far more intuitive for new adepts.
-Another reason is programming becoming less of an arcane discipline, and more of
+Also, programming becoming less of an arcane discipline, and more of
 a skill needed in every branch of industry.
 This makes collaboration between programmers and domain experts even more
 important.
-Ease of understanding diagrams (and not programming language) might become a
-crucial factor in application development, decreasing time needed to develop
-them.
-Therefore, developing a new approach to visual programming languages that
-overcomes its historical problems is essential.
+Ease of understanding diagrams (and not a specialised programming language) might become a
+crucial factor in application development, decreasing production time.
 
+\subsection{This work}
+The purpose of this thesis is to address the fundamental problem with Visual
+Programming Languages: collaboration between programmer using editor presenting
+diagram representation, and one using standard text editor. This might lead to
+more widespread use of ``programming with diagrams'', and better adoption of
+touch-based input methods in programming, which can potentially revolutionize
+how programmers work.
+The main idea is adopting approach from field of functional programming, which
+makes programs well-structured and concise, while reducing amount of syntactic
+structures needed to build a program, in order to better visualize it.
 
-\subsection{Visual Programming Environments}
-Since the invention of Smalltalk, programming environments that marred textual
-representation with graphical interface have been becoming more and more
-popular.
-Nowadays, powerful IDEs are commonly used.
-
-Their main advantage over visual programming languages is their versatility ---
-textual representation allowed them to gain popularity without forcing existing
-programmers to change habits and allowed them to keep tools that support text.
-Their chief disadvantage is blurring lines between the editor and the language ---
-because new language features need new editor features, new IDEs dwarf venerable
-Emacs (which was often accused of being nothing short of operating system).
-They are integrated with the language to the point where using a different
-editor for particular language is infeasible.
-
-
-\subsection{Summary}
-In order for a Visual Programming Language to be successful, it cannot be purely
-visual.
-It should use textual representation underneath, and be suitable for editing
-both as text and as a diagram.
-Textual representation should be minimal, so that the editor won’t have  to
-handle complex syntactic structures.
-There is one programming paradigm that focuses on making programs
-well-structured and concise: functional programming.
-
-Purpose of this thesis is using functional programming to create a new Visual
-Programming Language, describe it, and evaluate it by comparing with existing
-VPLs and VPEs.
+First, a functional programming is introduced, along with LISP approach to
+language design. Then, a dialect of LISP --- Clojure --- is presented, along
+with what editor features make working with this language easy.
+In  following chapters we present its
+visual representation in Jarvis --- editor which is the main achievement
+of this thesis. Jarvis is then described in more details --- both how writing
+programs in it looks like, and how it is implemented.
+It is then compared with both other VPLs and traditional
+Clojure editors, to better understand in what it excels.
 
 
 \section{Functional Programming}
@@ -155,23 +167,23 @@ It means that the program itself is a function which treats its environment as
 an input and delivers some changes to outside world as a result.
 The main function is composed of auxiliary functions, which are in turn defined
 as a composition of more functions.
-This ‘functions all the way down’ approach (down to handful of language
+This ``functions all the way down'' approach (down to a handful of language
 primitives) leads to very powerful and concise languages.
 This is caused by better code modularisation in form of higher order functions.
-It bears resemblance to imperative programming being superior to structured
+It bears resemblance to structured programming being superior to imperative
 programming.
-Presence of GOTOs made it impossible to generalise programs (as labels were
+The presence of GOTOs made it impossible to generalise programs (as labels were
 local and impossible to encapsulate).
 Functional programming forbids variable mutation (or more generally, side
 effects).
 The only possible declarations are static assignments.
 Mutable states are encapsulated in specialised structures.
 This facilitates code analysis.
-Unfortunately, it doesn’t come without downsides: it’s hard for an average
+Unfortunately, it doesn't come without downsides: it’s hard for an average
 programmer to switch to functional programming.
 
 
-\subsection{How this can be applied to VPL design?}
+\subsection{How can this be applied to VPL design?}
 
 Ideally, a suitable textual representation for VPL would be flexible, powerful
 and simple.
@@ -438,7 +450,7 @@ Last but not least, all this code must be presented in a readable manner, as a
 diagram of sorts.
 
 \subsection{Representation}
-The most basic function of Jarvis is displaying the code.
+The most basic functionality of Jarvis is displaying the code as a diagram.
 Language primitives are shown as a text, while S-expressions are
 represented as boxes \figref{fig:j-box}.
 Colors are used to signify different types.
@@ -692,7 +704,7 @@ check that function works as intended \figref{fig:j-fib-works}.
   \end{minipage}
 \end{figure}
 
-\subsection{Pros and cons of current solution}
+\subsection{Pros and cons of the current solution}
 Switching between the normal and “pasting” representation is not very intuitive
 - the code appears to “jump”.
 An alternative solution might be to show placement locations at all time --- this
@@ -714,12 +726,13 @@ unnecessary movement actions (with a possibility of errors and confusing the
 user).
 
 Another confusing part about the evaluation are side-effects in REPL --- if a user
-evaluates a code, then moves it to editing, REPL is not cleaned up.
+evaluates a code, and then moves it to the editing tab, REPL is not cleaned up.
 All side-effects accumulate, and thus re-evaluating even the same code might
 yield different results.
 To solve this, user can force REPL to restart (thus cleaning it up).
 An alternative solution might involve a wrapper around REPL, which would gather
-all side-effects of evaluation and clean if a node is sent back to editing.
+all side-effects of evaluation and clean them up if a node is sent back to
+editing tab.
 
 
 \section{Jarvis implementation}
@@ -818,12 +831,12 @@ Efficient, declarative views are provided by Reagent
 (\url{https://github.com/reagent-project/reagent}), which uses Facebooks React
 (\url{https://facebook.github.io/react/}) under the hood.
 CSS is generated using Garden (\url{https://github.com/noprompt/garden}).
-Other used libraries include:
+Additionally, many smaller libraries are included:
 \begin{itemize}
-  \item Re-com (\url{https://github.com/Day8/re-com}) --- components for using with
+  \item Re-com (\url{https://github.com/Day8/re-com}) --- GUI components for using with
     Reagent,
     
-  \item Figwheel (\url{https://github.com/bhauman/lein-figwheel}) --- Hot code
+  \item Figwheel (\url{https://github.com/bhauman/lein-figwheel}) --- hot code
     reloader for development,
     
   \item Schema (\url{https://github.com/plumatic/schema}) --- data description and
@@ -894,6 +907,7 @@ Another experiment could be different code representations --- current box
 representation isn’t innovative --- tree or graph representation might turn out to
 be more readable.
 Even switching between them at run-time could be implemented.
+
 Yet another possibility is creating a mobile (targeted for tablets) version of
 Jarvis.
 This would require using embedded Clojure instead of running REPL (as it is
@@ -905,7 +919,7 @@ If combined with more complex checkers, one might detect in which points code
 can (or should) be added and provide easy visual cues for users.
 
 
-\section{Comparison between Jarvis and other VPLs.}
+\section{Comparison between Jarvis and other VPLs}
 \subsection{Scratch}
 Scratch is a VPL designed for educational purposes by the Lifelong Kindergarten
 Group at the Massachusetts Institute of Technology (MIT).
@@ -1001,8 +1015,8 @@ Blueprints has no such problems --- programmer can easily see and use functions
 from other modules.
 
 \subsection{Using HCI approach}
-While a list of features helps to understand what are the exact low-level
-differences between the editors, in order to better understand what makes one
+While a list of features helps in understanding what the exact low-level
+differences between the editors are, in order to better understand what makes one
 better or worse a different kind of approach is needed.
 In his work Green presents a framework called “cognitive dimensions
 of notations” for assessment of cognitive artefacts.
@@ -1040,7 +1054,7 @@ abstraction over some function.
 Both approaches are very similar from the following point of view.
 A novice programmer has some traditional primitives (conditionals, loops,
 arithmetic) available, but is expected to build a couple of his own abstractions
-on top of other ones.
+on top of others.
 
 \subsubsection{Closeness of Mapping}
 Solving a problem can be easy in terms of a problem world, but very hard in
@@ -1298,12 +1312,23 @@ structure the code by himself. It is present in Emacs, VIm and Lighttable, with
 Jarvis offering similar capability by placing all boxes automatically.
 
 \section{Summary}
-Approach to Visual Programming Languages spearheaded by Jarvis bring promise for
-a better kind of Visual Programming Languages --- ones that might be suitable for
-programming by means more relevant in era of touchscreens. Despite being
-relatively very simple, it holds its own against projects created by teams of
-professional programmers.
+Representing Clojure program --- a language based on LISPs idea of S-expressions and
+data--as--code --- as a diagram proves to be a successful experiment.
+Jarvis is a new kind of Visual Programming Environment, one that allows
+having all pros of ``programming with diagrams'', while avoiding downsides
+traditionally associated with Visual Programming Languages. This approach, if
+developed, could lead to programming environments using entirely different means
+for communication with programmer then keyboard and mouse --- for example
+touchscreens.
 
+Compared to traditional Clojure programming environments (Emacs, VIm,
+Lighttable), it lacks features associated with
+multi-file projects, but proves superior in representation and error avoidance.
+Compared to other VPLs (Scratch, Blueprints), it lacks for features improving
+user experience, but generally is on the same level of usability.
+
+This thesis also shows potential development ideas for Jarvis, which could lead
+to it becoming a professional programming environment.
 
 \bibliographystyle{plain}
 \bibliography{books}
