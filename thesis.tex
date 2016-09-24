@@ -31,20 +31,21 @@
 \usepackage{caption}
 
 \usepackage{xcolor}
+\let\cleardoublepage\clearpage
 
 \newcommand*{\figref}[1]{[\textbf{\figurename}~\ref{#1}]}
 
 \englishtitle{The application of functional programming to~the~construction of~a~visual
   programming environment}
 \englishabstract{
-Traditional programming methods are becoming increasingly disconnected from
-modern input methods, like touchscreens. An alternative --- programming with
-diagrams, called Visual Programming Languages, has long existed, but received little
-attention. This
-thesis uses ideas inspired by functional programming to propose an approach to
-representation of the Clojure programming language,
-that allows manipulation of program both as a text and as a diagram. This
-approach is implemented as Visual Programming Editor --- Jarvis.
+  Traditional programming methods are becoming increasingly disconnected from
+  modern input methods, like touchscreens. An alternative --- programming with
+  diagrams, called Visual Programming Languages, has long existed, but received little
+  attention. This
+  thesis uses ideas inspired by functional programming to propose an approach to
+  representation of the Clojure programming language,
+  that allows manipulation of program both as a text and as a diagram. This
+  approach is implemented as Visual Programming Editor --- Jarvis.
 }
 \polishtitle{Zastosowanie paradygmatu programowania funkcyjnego do projektowania
 wizualnego srodowiska programistycznego}
@@ -57,6 +58,7 @@ wizualnego srodowiska programistycznego}
   mankamentow poprzez wykorzystanie programowania funkcyjnego, oraz implementuje
   nowy wizualne srodowisko programistyczne --- Jarvis.
 }
+\advisor{dr hab Dariusz Biernacki}
 \author{Łukasz Czapliński}
 \date{\today}
 
@@ -368,7 +370,7 @@ brackets paired can be troublesome).
 To mitigate this, most Clojure editors provide special shortcuts which help in
 editing S-expressions.
 
-\subsubsection*{\bfseries Slurp}
+\subsubsection{Slurp}
 Slurp adds element to current S-expression by extending parentheses one element
 to right (forward) or left (backward).
 
@@ -412,7 +414,7 @@ It is mostly used to inline expressions:
     \lstinline|(println 1 2 3[])|
 \end{itemize}
 
-\subsubsection{Summary}
+\subsection{Summary}
 The pain of editing S-expressions can be largely mitigated by not manipulating
 text.
 When S-expressions are structured visually, editing them might be as easy as
@@ -804,7 +806,7 @@ because it was meant for small components~\cite{Krasner:1988:CUM:50757.50759}!
 
 \begin{figure}[hbt]
   \centering
-  \includegraphics[scale=0.3]{img/MVC}
+  \includegraphics[scale=0.25]{img/MVC}
   \caption{Model--View--Controller}
 \label{fig:mvc}
 \end{figure}
@@ -826,7 +828,7 @@ reconciled with current application state --- triggering an update of views
 
 \begin{figure}[hbt]
   \centering
-  \includegraphics[scale=0.3]{img/OneWay}
+  \includegraphics[scale=0.25]{img/OneWay}
   \caption{One way data flow}
 \label{fig:oneway}
 \end{figure}
