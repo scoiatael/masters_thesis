@@ -45,20 +45,20 @@
   thesis uses ideas inspired by functional programming to propose an approach to
   representation of the Clojure programming language,
   that allows manipulation of program both as a text and as a diagram. This
-  approach is implemented as Visual Programming Editor --- Jarvis.
+  approach is implemented as a Visual Programming Editor --- Jarvis.
 }
 \polishtitle{Zastosowanie paradygmatu programowania funkcyjnego do projektowania
-wizualnego srodowiska programistycznego}
+wizualnego środowiska programistycznego}
 \polishabstract{
-  Tradycyjne metody programowania wymuszaja komunikacje z komputerem poprzez
-  klawiature i myszke --- sprzet obecnie coraz czesciej zastepowany przez gesty
-  i dotyk. Istnieje alternatywny sposob komunikacji z maszyna ---
-  zwany wizualnymi jezykami programowania. Sposob ten z wielu przyczyn nie
-  zdobyl duzej popularnosci. Ta praca pokazuje sposob eliminacji tych
-  mankamentow poprzez wykorzystanie programowania funkcyjnego, oraz implementuje
-  nowy wizualne srodowisko programistyczne --- Jarvis.
+  Tradycyjne metody programowania wymuszają komunikację z komputerem poprzez
+  klawiaturę i myszkę --- sprzęt obecnie coraz czesciej zastepowany przez ekrany dotykowe.
+  Od wielu lat isnieje alternatywa --- wizualne języki programowania. Ten sposob jednak
+  z wielu przyczyn nie
+  zdobył dużej popularności. Ta praca pokazuje sposób eliminacji jego
+  mankamentów poprzez wykorzystanie programowania funkcyjnego, oraz implementuje
+  nowe wizualne środowisko programistyczne --- Jarvis.
 }
-\advisor{dr hab Dariusz Biernacki}
+\advisor{dr hab. Dariusz Biernacki}
 \author{Łukasz Czapliński}
 \date{\today}
 
@@ -74,16 +74,16 @@ When it comes to describing our ideas to other programmers, we often use
 entirely different means.
 Diagrams are one of the most universal ones.
 Since the invention of graphical interfaces, we have been trying to apply
-similar means for communicating with the machine.
+similar means to communicating with the machine.
 
 Visual Programming Languages are one of many attempts to achieve this.
 Shapes, colours and text annotations are used to represent computer programs,
 instead of employing only formatted text.
-That representation is “first-class” --- users are expected to manipulate it
+That representation is ``first-class'' --- users are expected to manipulate it
 directly, instead of changing some underlying text representation.
 Such programming languages often do not possess human-readable textual
 representation.
-There is no widely adopted formal definition.
+There is no widely adopted formal definition of a VPL.
 The one most fitting in context of this thesis is:
 \blockquote{Interactive use of diagrams
   in the process of programming~\cite[Chapter 2]{nickerson1995visual}.}
@@ -94,12 +94,12 @@ graphical interface.
 The first interactive visual programming language was created by W. Sutherland
 in 1966~\cite{firstVPL}.
 A simple language based on flowcharts was created in 1969 at Rand~\cite{grail}.
-After invention of the first visual programming environments at Xerox Parc in
-1970, the main focus of next generations was to improve interface for
+After the invention of the first visual programming environments at Xerox Parc in
+1970, the main focus of the next generations was to improve the interface for
 programmers, while still using textual representation.
 It is visible in most programming environments, from Smalltalk to Microsoft
 Visual Studio.
-No visual programming language ever gained traction comparable to common textual
+No visual programming language has ever gained traction comparable to common textual
 programming languages.
 
 
@@ -111,10 +111,10 @@ to learn it.
 This would be even more painful than learning a new programming language, as
 syntax of most mainstream languages with textual representation is similar.
 
-Additionally, most of programming tools are specialised for manipulating text.
-If a language is text-based, then it can easily be presented, edited, stored and
-transmitted by multitude of different programs. If, on the other hand, a program
-is a diagram which can only be rendered by some specialised editor, it becomes
+Additionally, most of programming tools are specialised for text manipulation.
+If a language is text-based, it can easily be presented, edited, stored and
+transmitted by a multitude of different programs. If, on the other hand, a program
+is a diagram which can only be rendered by a specialised editor, it becomes
 much harder to collaborate on it with a group of people, and much harder to
 share it with other programmers.
 
@@ -127,16 +127,16 @@ Studio (\url{https://www.visualstudio.com/}) or IntelliJ IDEA
 (\url{https://www.jetbrains.com/idea/}) are commonly used.
 
 Their main advantage over visual programming languages is their versatility ---
-textual representation allowed them to gain popularity without forcing existing
-programmers to change habits, and allowed them to keep tools that support text.
-Their chief disadvantage is lack of flexibility. They are blurring lines between
+textual representation has allowed them to gain popularity without forcing existing
+programmers to change habits, and to keep tools that support text.
+Their chief disadvantage is the lack of flexibility. They are blurring the lines between
 the editor and the language ---
 because new language features need new editor features, and so new IDEs dwarf
 the venerable
 Emacs (which was often accused of being nothing short of operating system).
-At the same time, textual representation forces need for keyboard, and doesn't
-allow experimenting with new input methods. Even mouse is only a secondary mean
-of interacting with editor. This stands in start contrast with how user
+At the same time, textual representation forces keyboard and doesn't
+allow experimenting with new input methods. Even the interaction with mouse is only a secondary mean
+of interacting with the editor. This stands in stark contrast with how user
 interfaces are evolving right now.
 
 Nowadays, touchscreens are getting more and more attention --- they are currently
@@ -149,29 +149,29 @@ In addition, programming is becoming less of an arcane discipline, and more of
 a skill needed in every branch of industry.
 This makes collaboration between programmers and domain experts even more
 important.
-Ease of understanding diagrams (and not a specialised programming language) might become a
+The ease of understanding diagrams (and not a specialised programming language) might become a
 crucial factor in application development, decreasing production time.
 
-\section{This work}
+\section{About this work}
 The purpose of this thesis is to address the fundamental problem with Visual
-Programming Languages: collaboration between programmer using editor presenting
-diagram representation, and one using standard text editor. This might lead to
+Programming Languages: collaboration between the programmer using visual
+programming editor, and the one with a standard text editor. This might lead to
 more widespread use of ``programming with diagrams,'' and better adoption of
 touch-based input methods in programming, which can potentially revolutionize
 how programmers work.
-The main idea is to keep program represented as text, but visualize and modify
-it as a diagram. In order to achieve this, amount of syntactic structures in
-text is reduced by adopting language from field of functional programming.
+The main idea is to keep a program encoded as text, but visualize and modify
+it as a diagram. In order to achieve this, the amount of syntactic structures in
+the text is reduced by adopting a language from the field of functional programming.
 
-First, functional programming is introduced, along with LISP approach to
+First, functional programming is introduced, along with the LISP approach to
 language design. Then, a dialect of LISP --- Clojure --- is presented, along
-with what editor features make working with this language easy.
+with the editor features that make working with this language easy.
 In  following chapters we present its
-visual representation in Jarvis --- editor which is the main achievement
-of this thesis. Jarvis is then described in more details --- both how writing
+visual representation in Jarvis --- the editor which is the main achievement
+of this thesis. Jarvis is then described in detail --- both what writing
 programs in it looks like, and how it is implemented.
 It is then compared with both other VPLs and traditional
-Clojure editors, to better understand in what it excels.
+Clojure editors in order to better explain in what it excels.
 
 
 \chapter{Functional Programming}
@@ -220,9 +220,9 @@ It’s remarkable, because encoding language in the same way as its data
 structures empowers it.
 For example, one can easily write a function that operates on syntactic forms
 instead of values.
-This makes language very powerful, while keeping syntax absolutely minimal.
-The price for generalised syntax is plenty of similar structures in code and
-results in code that is hard to read:
+This makes the language very powerful, while keeping the syntax absolutely minimal.
+The price for generalised syntax is plenty of similar structures in the program and
+results in a code that is hard to read:
 
 \begin{lstlisting}
 (defun fibonacci (N)
@@ -273,7 +273,7 @@ prefixed by a tag, for example:
 \begin{lstlisting}
 #myapp/Person {:first "Fred" :last "Mertz"} 
 \end{lstlisting}
-When Clojure’s parser encounters such element, it has a couple of choices, one
+When Clojure’s parser encounters such an element, it has a couple of choices, one
 of them being creating a known representation.
 This, coupled with the fact that only elements readable by Clojure’s parser can
 be tagged, means that the parser that doesn’t know a specific tag can still work
@@ -285,7 +285,7 @@ on a Clojure program containing that tag.
 \subsubsection{Evaluation}
 Everything but non-empty lists and symbols evaluate to corresponding data
 structure.
-Symbols are resolved, which generally means lookup for a variable corresponding
+Symbols are resolved, which generally means a lookup for a variable corresponding
 to that symbol.
 Non-empty lists are interpreted as calls in form of \lstinline|(operator operands*)|.
 Whether operands are evaluated, depends on the type of the operator.
@@ -321,14 +321,14 @@ Its reader recognises some operators and automatically transforms them:
 Used to extract value from references and atoms
   \item \lstinline|'| --- quote:
 \lstinline|'foo| $\Rightarrow$ \lstinline|(quote foo)|
-Works like LISPs quote, allows stopping evaluation of data structures.
+Works like a LISP quote, makes it possible to stop evaluation of the data structure.
   \item \lstinline|`| --- syntactic quote:
-No macro equivalent.
+no macro equivalent.
 Extends quote capabilities to allow escaping (i.e.\ evaluating only some parts of
 quoted data structure).
 
-  \item \lstinline|~| --- syntactic quote escape
-No macro equivalent
+  \item \lstinline|~| --- syntactic quote escape:
+no macro equivalent.
 Used in conjunction with syntactic quote:
 \begin{itemize}
   \item \lstinline|`~x| $\Rightarrow$ \lstinline|x|
@@ -358,7 +358,7 @@ The second difference is integration with editors.
 It’s common for Clojure programmers to have an editor integration, which allows
 them to send arbitrary parts of the currently edited file to REPL and observe
 the results.
-This results in better understanding of language and less bugs (due to ideally
+This results in better understanding of the language and less bugs (due to ideally
 every part of code being tested during writing).
 
 
@@ -371,39 +371,39 @@ To mitigate this, most Clojure editors provide special shortcuts which help in
 editing S-expressions.
 
 \subsubsection{Slurp}
-Slurp adds element to current S-expression by extending parentheses one element
-to right (forward) or left (backward).
+Slurp adds an element to current S-expression by extending the parentheses one element
+to the right (forwards) or left (backwards).
 
 \begin{itemize}
 \item forward: \lstinline|(1 2 [])  3| $\Rightarrow$ \lstinline|(1 2 3 [])|
 \item backward: \lstinline|1 ([] 2 3)| $\Rightarrow$ \lstinline|([] 1 2 3)|
 \end{itemize}
-(\lstinline{[]} is current cursor position.)
+(\lstinline{[]} is the current position of the cursor.)
 
 \subsubsection{Barf}
-Barf is opposite to slurp --- it removes element from current S-expression by
-moving parentheses left (forward) or right (backward).
+Barf is opposite to slurp --- it removes an element from current S-expression by
+moving the parentheses left (forwards) or right (backwards).
 \begin{itemize}
 \item forward: \lstinline|(1 2 3 [])| $\Rightarrow$ \lstinline|(1 2 [])  3|
 \item backward: \lstinline|([] 1 2 3)| $\Rightarrow$ \lstinline|1 ([] 2 3)|
 \end{itemize}
 
 \subsubsection{Transpose}
-Transpose re-orders element in current S-expression by swapping element before
-cursor with one after cursor.
+Transpose re-orders element in the current S-expression by swapping the element before
+cursor with the one after.
 \begin{itemize}
 \item \lstinline|(1 [] 2)| $\Rightarrow$ \lstinline|(2 [] 1)|
 \end{itemize}
 
 \subsubsection{Wrap}
-Wrap simply wraps current element in parentheses.
+Wrap simply wraps the current element in the parentheses.
 
 \begin{itemize}
 \item \lstinline|println[]| $\Rightarrow$ \lstinline|(println[])|
 \end{itemize}
 
 \subsubsection{Unwrap}
-Unwrap removes parentheses from current S-expression.
+Unwrap removes the parentheses from the current S-expression.
 \begin{itemize}
   \item \lstinline|(println[])| $\Rightarrow$ \lstinline|println[]|
 \end{itemize}
@@ -418,8 +418,8 @@ It is mostly used to inline expressions:
 The pain of editing S-expressions can be largely mitigated by not manipulating
 text.
 When S-expressions are structured visually, editing them might be as easy as
-drawing a new arrow, or moving a box.
-This would largely remove problems with syntax and allow programmers to focus on
+drawing a new arrow or moving a box.
+This would largely remove problems with the syntax and allow programmers to focus on
 the semantics of the program.
 
 
@@ -437,7 +437,7 @@ It is implemented as a part of this thesis and it can be downloaded from its
 webpage \url{https://scoiatael.github.io/Jarvis}.
 
 \section{Programming with Jarvis}
-Ideally, the coding cycle in Jarvis would be similar to that of other Clojure
+Ideally, the coding cycle in Jarvis would be similar to that of the other Clojure
 editors \figref{fig:clojure-coding}:
 
 \begin{figure}[hbt]
@@ -472,7 +472,7 @@ The most basic functionality of Jarvis is displaying the code as a diagram.
 Language primitives are shown as a text, while S-expressions are
 represented as boxes \figref{fig:j-box}.
 Colors are used to signify different types.
-This creates a representation consisting of embedded boxes, textual nodes as
+This creates a representation consisting of embedded boxes with textual nodes as
 leaves.
 For example, a function’s definition
 \begin{lstlisting}
@@ -492,8 +492,8 @@ more readable than parentheses.
 
 \section{Modification}
 Modification of a code is implemented as two modes --- normal and pasting.
-It works in a fashion similar to drag \& drop --- the first click focuses element.
-Then, the use can either pick it up, or copy it and the editor enters the
+It works in a fashion similar to drag \& drop --- the first click focuses the element.
+Then, the user can either pick it up, or copy it and the editor enters the
 pasting mode.
 Then, the second click inserts the element into given place and the editor
 returns to the normal mode.
@@ -535,10 +535,10 @@ Jarvis is available for several platforms from website
 tested), and several Linux distributions (not tested, with underlying build tool
 still not production-ready) \figref{fig:j-inst}.
 
-In order to evaluate code, Jarvis requires installation of Leiningen
+In order to evaluate the code, Jarvis requires Leiningen
 (\url{https://leiningen.org/}).
-If installation is not found, error message is shown during startup
-\figref{fig:j-error}. Most of functionality will continue to work, but any attempts
+If it is not found, an error message is shown during the startup
+\figref{fig:j-error}. Most of the functionality will continue to work, but any attempts
 to evaluate code will result in an error.
 
 \begin{figure}[hbt]
@@ -559,8 +559,8 @@ to evaluate code will result in an error.
 
 \section{Example}
 In this section we'd like to present writing a simple Fibonacci function in Jarvis.
-After starting Jarvis, user is presented with the blank screen. He can open a file, or
-start writing code \figref{fig:j-startup}. 
+After starting Jarvis, the user is presented with a blank screen. He can open a file, or
+start writing the code \figref{fig:j-startup}. 
 
 \begin{figure}[hbt]
   \centering
@@ -592,13 +592,13 @@ box which user can utilize to add custom elements \figref{fig:j-add_box}.
 \end{figure}
 
 We'll use it to add \lstinline|defn| --- a function definition. This will create a
-node which corresponds to head of function definition. It requires also a name of
-a function and vector of arguments. We'll use the text box to add a node containing
+node which corresponds to the head of the function definition. It also requires a name of
+the function and a vector of arguments. We'll use the text box to add a node containing
 \lstinline|fib| --- the function name, \lstinline|[]| --- an empty vector of function
 parameters, and \lstinline|i| --- the sole function argument \figref{fig:j-fib_parts}.
 
-Now we can start gluing these parts together. First we focus the \lstinline|i| node
-with single click \figref{fig:j-cut}, and then we use the \textit{Cut} button to
+Now, we can start gluing these parts together. First, we focus the \lstinline|i| node
+with a single click \figref{fig:j-cut}, and then we use the \textit{Cut} button to
 remove that node from its current
 position and enter the pasting mode \figref{fig:j-pasting}.
 
@@ -635,9 +635,9 @@ position and enter the pasting mode \figref{fig:j-pasting}.
 \end{figure}
 
 In the pasting mode, we can click inside the green square (which represents the empty vector) to insert
-\lstinline|i| inside \figref{fig:j-i-insert}.
-This finishes our vector of parameters \figref{fig:j-inserted}.
-Using the same mechanism, we the finish head of the function definition. Then we use
+\lstinline|i| \figref{fig:j-i-insert}.
+This ends our work with the vector of parameters \figref{fig:j-inserted}.
+Using the same mechanism, we finish the head of the function definition. Then we use
 the \textit{Eval}  button to check for potential errors \figref{fig:j-defn-eval}.
 
 \begin{figure}[hbt]
@@ -659,10 +659,10 @@ the \textit{Eval}  button to check for potential errors \figref{fig:j-defn-eval}
 In the evaluation window we see that no errors were emitted
 \figref{fig:j-defn-eval-result} --- so far our function
 definition is correct.
-Now we click the function definition to return it to the \textit{Edit} tab. In
+Now, we click on the function definition to return it to the \textit{Edit} tab. In
 there, we add a simple
 \lstinline{if} element \figref{fig:j-if}.
-After moving it inside \lstinline{defn} we can again check if no errors were
+After moving it inside \lstinline{defn} we can check again if errors have been
 made \figref{fig:j-if-check}.
 Then we proceed to create the second branch of the \lstinline{if} expression ---
 a recursive call to \lstinline{fib} \figref{fig:j-fib-rec}.
@@ -700,15 +700,15 @@ a recursive call to \lstinline{fib} \figref{fig:j-fib-rec}.
   \end{minipage}
 \end{figure}
 
-It seems we are finished with our function definition --- now we can again
-evaluate it, and check if it
+It seems we are finished with our function definition --- now we can
+evaluate it again, and check if it
 works. We create a simple invocation --- \lstinline{(fib 0)}, and we evaluate it
 \figref{fig:j-fib-err}.
 
 It seems there's an error in our definition --- comparison is wrong! We need to
-change \lstinline{>} to \lstinline{<}. This can be done easily by adding new
+change \lstinline{>} to \lstinline{<}. This can be done easily by adding a new
 element via text box, cutting it and pasting in place of the other. Then we can
-check that the function indeed works as intended \figref{fig:j-fib-works}.
+check if the function indeed works as intended \figref{fig:j-fib-works}.
 
 \begin{figure}[hbt]
   \centering
@@ -740,9 +740,9 @@ Moving the code between evaluation and editing tabs might also be surprising to
 some users --- they might think that the code sent to evaluation is somehow lost.
 Another solution might be to use more tabs --- one for editing, one for
 evaluation, and one for the finished code.
-Separate tabs would then represented three stages of code progression: in
+Separate tabs would then represented the three stages of coding: in
 progress (editing tab), being tested (evaluation tab), and done (finished tab).
-User should be able to move it both forwards and backwards (to fix or refactor
+The user should be able to move it both forwards and backwards (to fix or refactor
 code).
 This has a rather serious disadvantage of cluttering the interface with
 unnecessary movement actions (with a possibility of errors and confusing the
@@ -856,7 +856,7 @@ Efficient, declarative views are provided by Reagent
 CSS is generated using Garden (\url{https://github.com/noprompt/garden}).
 Additionally, many smaller libraries are included:
 \begin{itemize}
-  \item Re-com (\url{https://github.com/Day8/re-com}) --- GUI components for using with
+  \item Re-com (\url{https://github.com/Day8/re-com}) --- GUI components for
     Reagent,
     
   \item Figwheel (\url{https://github.com/bhauman/lein-figwheel}) --- hot code
@@ -900,7 +900,7 @@ list and vector.
 This doesn’t limit functionality (as any Clojure program can be written by using
 their constructors, instead of literals --- e.g. \lstinline|(hash-map 1 2)|
 instead of \lstinline|{1 2}|),
-but doesn’t provide good user experience.
+but doesn’t provide a good user experience.
 The same goes for reader forms --- for example, lambda-abstraction syntax
 (\lstinline|#(+ 1 2)|
 instead of \lstinline|(fn [] (+ 1 2))|) is not parsed correctly.
@@ -987,7 +987,7 @@ underlying implementation for nodes should be provided by programmers as text.
 
 \subsubsection*{REPL integration}
 Many traditional editors (like Emacs, VIm, or Lighttable) offer possibility to
-execute parts of program directly from editor, increasing programmers ability to
+execute parts of the program directly from editor, increasing programmers ability to
 debug program before its fully written.
 Both Jarvis and Scratch have the same capability, but Blueprints does not
 possess it. That is caused by Unreal editor model of creating full scenes before
@@ -996,7 +996,7 @@ scene-by-scene, instead of parts of programmer, but for a novice this proves
 difficult.
 
 \subsubsection*{Representation}
-Jarvis represents program as series of boxes, each representing data structure
+Jarvis represents the program as a series of boxes, each representing data structure
 in Clojure. Scratch uses similar representation --- expressions are boxes, and
 those which can interact (as for example conditional expression, and boolean
 condition) can interlock, allowing the programmer to intuitively understand the
@@ -1013,13 +1013,13 @@ functions having possibly multiple arities. Such errors are left to be caught
 during evaluation in REPL.\@
 
 \subsubsection*{Comments}
-Comments increase readers understanding of program. Blueprints allow placing
+Comments increase the chance of readers understanding the program. Blueprints allow placing
 comments on groups of nodes. Scratch and Jarvis have no such capability.
 
 \subsubsection*{Manual placement}
 In both Blueprints and Scratch, programmer is expected to place parts of
 a program manually. That creates a potential source of problems --- the programmer has
-to worry how his changes would affect placement of the whole program. In Blueprints,
+to worry how his changes would affect the placement of the whole program. In Blueprints,
 this problem is partially alleviated by automatic re-wiring --- if two nodes
 were connected, the programmer can freely move each of them, and they will still be
 wired together. Jarvis has fully automatic placement, dictated by the structure of
@@ -1028,22 +1028,22 @@ the underlying Clojure program.
 \subsubsection*{Functions}
 The ability to group and parameterize code gives the programmer a very important tool to
 avoid code duplication. All three editors offer such
-possibility, with least emphasis in Scratch (due to its simplicity) and
-greatest in Jarvis (due to Clojure being a functional language).
+possibility, which is least emphasized in Scratch (due to its simplicity) and
+most in Jarvis (due to Clojure being a functional language).
 
 \subsubsection*{Modules}
 Building on what functions offer, modules help organize groups of functions.
-Scratch doesn't possess modules, but Jarvis and Blueprints do. Support for them
-in Jarvis is limited (programmer can import and use functions from other
+Scratch doesn't possess modules, but Jarvis and Blueprints do. The support for them
+in Jarvis is limited (the programmer can import and use functions from the other
 modules, but they are not listed like functions from current namespace --- which
-is Clojure term for module).
+is the Clojure term for ``module'').
 Blueprints has no such problems --- the programmer can easily see and use functions
-from other modules.
+from the other modules.
 
 \section{Using HCI approach}
-While a list of features helps in understanding what the exact low-level
+While a list of features helps understand what the exact low-level
 differences between the editors are, in order to better understand what makes one
-better or worse a different kind of approach is needed.
+better or worse, a different kind of approach is needed.
 In his work Green presents a framework called “cognitive dimensions
 of notations” for assessment of cognitive artefacts.
 It can be used to compare VPLs~\cite{Green96UsabilityAnalysis}. In this section,
@@ -1156,7 +1156,7 @@ Even if shown as a diagram, conditionals imbued in more conditionals resemble a
 visual exercise on a formal logic course, not something easy to grasp.
 Scratch suffers the most from this, as it uses imperative programming as its
 base.
-Blueprints (with Object Oriented programming) are a bit better, and Jarvis (with
+Blueprints (with Object Oriented programming) is a bit better, and Jarvis (with
 functional programming) fares best.
 That is solely caused by how often that kind of hard mental operations happen in
 underlying programming thinking patterns and not by the representation.
@@ -1204,10 +1204,10 @@ resembles a tree flattened in a prefix fashion.
 Imposing some structuring on such list is challenging, to say the least.
 
 \subsubsection*{Progressive Evaluation}
-Some languages forbid running programs which are not complete.
+Some languages forbid running programs that are not complete.
 Other --- mostly dynamic interpreted languages allow running parts of a program.
 Ideally, the programmer can write a program by interacting with REPL and saving
-parts which are working.
+the working parts.
 Such is the case with Jarvis.
 The program is constructed by running small expressions and composing them to
 solve bigger problems.
@@ -1220,7 +1220,7 @@ code modification.
 
 \subsubsection*{Role-expressiveness}
 Generally, programmers agree that \emph{some} languages are harder to read than others.
-Unfortunately, there’s no consensus on which exactly of them are.
+Unfortunately, there’s no consensus on exactly which of them are.
 A C programmer might argue that LISP is an unreadable mess of parentheses, while
 his adversary would say that the bloated syntax of C makes understanding even
 simplest programs challenging.
@@ -1236,7 +1236,7 @@ given expression is for.
 Scratch offers no means of modularity besides defining functions and no
 secondary notation besides the placement of blocks.
 There are also no diagnostic code structures.
-Blueprints allows to add comments on a group of nodes.
+Blueprints allows to add comments to a group of nodes.
 Jarvis, on the other hand, has no support for comments, but allows using
 Clojure pre- and postconditions to annotate functions with extra information
 about arguments and returned values.
@@ -1282,7 +1282,7 @@ Clojure programs: VIm, Emacs, and Lighttable.
 
 \section{Major Clojure editors}
 \subsubsection*{VIm}
-VIm (\url{http://www.vim.org/}) is small but easily extensible editor, first
+VIm (\url{http://www.vim.org/}) is a small but easily extensible editor, first
 released in 1991. Clojure editing is improved by several plugins --- some of
 them provide REPL support, other offer better means of editing S-expressions.
 
@@ -1300,12 +1300,12 @@ Clojure into Lighttable.
 
 \section{Features}
 \subsubsection*{REPL integrations}
-All of the compared editors offer possibility to execute parts of program
+All of the compared editors offer the possibility to execute parts of program
 directly from the editor.
 
 \subsubsection*{S-expressions editing}
-All of compared editors offer possibility to manipulate S-expressions (using
-amongst other the techniques described in [Section~\ref{sec:editing}]).
+All of compared editors offer the possibility to manipulate S-expressions (using,
+amongst other, the techniques described in [Section~\ref{sec:editing}]).
     
 \subsubsection*{Project awareness}
 Emacs, Lighttable and VIm support multi-file projects, by providing means to
@@ -1321,16 +1321,16 @@ similar to how it is implemented in VIm and Emacs).
     
 \subsubsection*{Syntax check}
 All textual editors offer ability to detect and present possible errors, in
-varying degrees --- with most basic being detection of misplaced parentheses.
-In this aspect Jarvis proves superior --- programmer simply cannot make such
-a mistake. Jarvis also tries to analyze code and show possible semantic errors
+varying degrees --- with the most basic being the detection of misplaced parentheses.
+In this aspect Jarvis proves superior --- the programmer simply cannot make such
+a mistake. Jarvis also tries to analyze the code and show possible semantic errors
 with the help of REPL.\@
     
 \subsubsection*{Autocomplete}
 Most textual editors currently in use have the ability to autocomplete identifiers
-(to avoid typing full names), either by scanning all words in current document
+(to avoid typing full names), either by scanning all words in the current document
 or by more sophisticated means. Jarvis connects to REPL and offers the
-programmer a list of functions available currently to him.
+programmer a list of functions currently available to him.
     
 \subsubsection*{Syntax highlighting}
 Color-coding different language parts (identifiers, brackets) helps programmer
@@ -1352,13 +1352,13 @@ Jarvis is a new kind of Visual Programming Environment, one that allows
 having all pros of ``programming with diagrams,'' while avoiding downsides
 traditionally associated with Visual Programming Languages. This approach, if
 developed further, could lead to programming environments using entirely different means
-for communication with programmer then keyboard and mouse --- for example
+for communication with programmer than keyboard and mouse --- for example
 touchscreens.
 
 Compared to traditional Clojure programming environments (Emacs, VIm,
-Lighttable), it lacks features associated with
+Lighttable), Jarvis lacks features associated with
 multi-file projects, but proves superior in representation and error avoidance.
-Compared to other VPLs (Scratch, Blueprints), it lacks for features improving
+Compared to other VPLs (Scratch, Blueprints), it lacks features that improve
 user experience, but generally is on the same level of usability.
 
 In addition, there are many potential development ideas for Jarvis, which could lead
