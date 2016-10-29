@@ -1,0 +1,26 @@
+* Zastosowanie funkcyjnego paradygmatu do tworzenia graficznego środowiska programistycznego
+  Autor: Łukasz Czapliński
+  Wydział Matematyki i Informatyki UWr
+  Praca magisterska pod opieką dra hab. Dariusza Biernackiego
+** Omówienie problemu
+*** Ekrany dotykowe
+*** Programowanie przez diagramy - Graficzne języki programowania
+**** Blueprints
+**** Scratch
+
+*** Wiekszosc narzedzi przetwarza tekst
+**** edytory
+**** git
+**** code review
+
+** Cel
+*** Graficzne środowisko programistyczne
+*** Czytelny tekst jako format zapisu
+*** Przygotowane do programowania na ekranach dotykowych
+** Realizacja
+*** LISP - Clojure
+*** Electron
+*** Integracja z REPLem
+** Wyniki
+*** Jarvis
+** Wnioski i wyzwania na przyszłość
