@@ -1,6 +1,6 @@
 #+TITLE: Zastosowanie funkcyjnego paradygmatu do tworzenia graficznego środowiska programistycznego
 #+AUTHOR: Łukasz Czapliński 
-#+OPTIONS: H:3 toc:1
+#+OPTIONS: H:2
 #+STARTUP: beamer
 #+BEAMER_COLOR_THEME:
 #+BEAMER_FONT_THEME:
@@ -11,34 +11,66 @@
 #+LATEX_CLASS: beamer
 * Omówienie problemu
 ** Ekrany dotykowe jako główna metoda interakcji z komputerem
-*** Telefony komórkowe
-*** Tablety
-*** Komputery
-** Programowanie przez diagramy - Graficzne języki programowania
-*** Historia
-*** Scratch
- Prosty graficzny język, do nauki programowania. Doskonale spełnia swoje zadanie, ale nie nadaje się do ogólnych zastosowań.
-*** Blueprints
-*** Wady i zalety
-** Problemy ze zdobyciem popularności
-*** Edytory
-*** Git
-*** Code Review
+[[./img/studio.png]]
+** Rozwiązanie: programowanie przez diagramy
+#+CAPTION[]: \small{Copyright Warner Bros. Television}
+[[./img/whiteboard.jpg]]
+** Graficzne języki programowania - Scratch
+ # Prosty graficzny język, do nauki programowania. Doskonale spełnia swoje zadanie, ale nie nadaje się do ogólnych zastosowań.
+*** Tekst
+    :PROPERTIES:
+      :BEAMER_col: 0.4
+    :END:
+      - Lifelong Kindergarten Group, MIT, 2005
+      - Edukacyjny, dla dzieci w wieku 8-16 lat
+      - Pozwala na tworzenie interaktywnych scen
+      - Przypomina układanie puzzli
+*** Screenshot
+    :PROPERTIES:
+      :BEAMER_col: 0.6
+    :END:
+    #+ATTR_LATEX: :width 0.8\textwidth
+    [[./img/s-puzzle.png]]
+** Graficzne języki programowania - Blueprints
+*** Tekst
+    :PROPERTIES:
+      :BEAMER_col: 0.4
+    :END:
+      - Unreal Engine, Epic, 2014
+      - Pisanie poziomów gier
+*** Screenshot
+    :PROPERTIES:
+      :BEAMER_col: 0.6
+    :END:
+    [[./img/b-wires.png]]
+** Graficzne języki programowania
+*** Zalety
+    + Prostsze w nauce
+    + Doskonałe dla ekranów dotykowych
+*** Wady
+    - Binarny sposób zapisu
+** Przeszkody w zdobyciu popularności - Edytory
+** Przeszkody w zdobyciu popularności - Systemy kontroli wersji
+** Przeszkody w zdobyciu popularności - Code Review
 * Cel
-** Graficzne środowisko programistyczne
-*** Programowanie przez diagramy
-** Łatwa integracja z isniejącym systemem
-*** Znany język
-*** Czytelny tekst jako główny format zapisu
-** Przygotowane do programowania na ekranach dotykowych
+** Cel
+  + Graficzne środowisko programistyczne
+  + Łatwa integracja z isniejącym systemem - znany język
+  + Łatwa integracja z isniejącym systemem - czytelny format zapisu
+  + Przygotowane do programowania na ekranach dotykowych
+  + Integracja z narzędziami dla programistów
+# Powinno być równie prosto jak w przypadku tradycyjnych edytorów
+# REPL!
 * Realizacja
-*** LISP - Clojure
-*** Electron
-*** Integracja z REPLem
+** Realizacja: Język - Clojure
+** Realizacja: Technologia - Electron + Clojurescript
+** Realizacja: Integracja z REPLem
 * Wyniki
-** Jarvis
-*** Prezentacja
-*** Implementacja
+** Wyniki - Jarvis
 * Wnioski i wyzwania na przyszłość
-*** Problemy
-*** Możliwe ulepszenia
+** Problemy
+  - Brak wsparcia dla wszystkich struktur Clojure
+  - Brak wsparcia dla makr
+** Możliwe ulepszenia
+  - Inne reprezentacja kodu
+  - Lepsza interakcja z użytkownikiem

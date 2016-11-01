@@ -4,7 +4,10 @@ thesis_quick: thesis.tex books.bib
 thesis: thesis.tex books.bib
 	latexmk -bibtex -use-make -xelatex thesis.tex
 
-all : thesis
+presentation: presentation.tex
+	latexmk -pdf presentation.tex
+
+all : thesis presentation
 
 clean :
 	latexmk -c
