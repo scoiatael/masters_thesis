@@ -1,26 +1,44 @@
-* Zastosowanie funkcyjnego paradygmatu do tworzenia graficznego środowiska programistycznego
-  Autor: Łukasz Czapliński
-  Wydział Matematyki i Informatyki UWr
-  Praca magisterska pod opieką dra hab. Dariusza Biernackiego
-** Omówienie problemu
-*** Ekrany dotykowe
-*** Programowanie przez diagramy - Graficzne języki programowania
-**** Blueprints
-**** Scratch
-
-*** Wiekszosc narzedzi przetwarza tekst
-**** edytory
-**** git
-**** code review
-
-** Cel
-*** Graficzne środowisko programistyczne
-*** Czytelny tekst jako format zapisu
-*** Przygotowane do programowania na ekranach dotykowych
-** Realizacja
+#+TITLE: Zastosowanie funkcyjnego paradygmatu do tworzenia graficznego środowiska programistycznego
+#+AUTHOR: Łukasz Czapliński 
+#+OPTIONS: H:3 toc:1
+#+STARTUP: beamer
+#+BEAMER_COLOR_THEME:
+#+BEAMER_FONT_THEME:
+#+BEAMER_HEADER: \institute{Wydział Matematyki i Informatyki UWr}\subtitle{Praca magisterska pod opieką dra hab. Dariusza Biernackiego}
+#+BEAMER_INNER_THEME:
+#+BEAMER_OUTER_THEME:
+#+BEAMER_THEME: Madrid
+#+LATEX_CLASS: beamer
+* Omówienie problemu
+** Ekrany dotykowe jako główna metoda interakcji z komputerem
+*** Telefony komórkowe
+*** Tablety
+*** Komputery
+** Programowanie przez diagramy - Graficzne języki programowania
+*** Historia
+*** Scratch
+ Prosty graficzny język, do nauki programowania. Doskonale spełnia swoje zadanie, ale nie nadaje się do ogólnych zastosowań.
+*** Blueprints
+*** Wady i zalety
+** Problemy ze zdobyciem popularności
+*** Edytory
+*** Git
+*** Code Review
+* Cel
+** Graficzne środowisko programistyczne
+*** Programowanie przez diagramy
+** Łatwa integracja z isniejącym systemem
+*** Znany język
+*** Czytelny tekst jako główny format zapisu
+** Przygotowane do programowania na ekranach dotykowych
+* Realizacja
 *** LISP - Clojure
 *** Electron
 *** Integracja z REPLem
-** Wyniki
-*** Jarvis
-** Wnioski i wyzwania na przyszłość
+* Wyniki
+** Jarvis
+*** Prezentacja
+*** Implementacja
+* Wnioski i wyzwania na przyszłość
+*** Problemy
+*** Możliwe ulepszenia
