@@ -117,6 +117,7 @@ file:./img/Oneway.png
 ** Problemy
   - Brak wsparcia dla wszystkich struktur Clojure
   - Brak wsparcia dla makr
+  - Brak możliwości cofnięcia akcji
 ** Możliwe ulepszenia
   - Inne reprezentacja kodu
   - Bardziej płynna, intuicyjna interakcja z użytkownikiem
