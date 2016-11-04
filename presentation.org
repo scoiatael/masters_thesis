@@ -1,5 +1,5 @@
 #+TITLE: Zastosowanie funkcyjnego paradygmatu do tworzenia graficznego środowiska programistycznego
-#+AUTHOR: Łukasz Czapliński 
+#+AUTHOR: Łukasz Czapliński
 #+OPTIONS: H:2
 #+STARTUP: beamer
 #+BEAMER_COLOR_THEME:
@@ -22,36 +22,53 @@
       :BEAMER_col: 0.4
     :END:
       - Lifelong Kindergarten Group, MIT, 2005
-      - Edukacyjny, dla dzieci w wieku 8-16 lat
-      - Pozwala na tworzenie interaktywnych scen
-      - Przypomina układanie puzzli
+      - edukacyjny, dla dzieci w wieku 8-16 lat
+      - pozwala na tworzenie interaktywnych scen
+      - przypomina układanie puzzli
 *** Screenshot
     :PROPERTIES:
       :BEAMER_col: 0.6
     :END:
     #+ATTR_LATEX: :width 0.8\textwidth
-    [[./img/s-puzzle.png]]
+[[file:./img/s-puzzle.png]]
 ** Graficzne języki programowania - Blueprints
 *** Tekst
     :PROPERTIES:
       :BEAMER_col: 0.4
     :END:
       - Unreal Engine, Epic, 2014
-      - Pisanie poziomów gier
+      - pisanie poziomów gier
+      - dla developerów, nie programistów
+      - łączenie węzłów - druty symbolizują przepływ danych oraz wykonanie programu
 *** Screenshot
     :PROPERTIES:
       :BEAMER_col: 0.6
     :END:
-    [[./img/b-wires.png]]
+[[file:./img/b-wires.png]]
 ** Graficzne języki programowania
 *** Zalety
     + Prostsze w nauce
     + Doskonałe dla ekranów dotykowych
+    + Dopasowane do swoich nisz
 *** Wady
-    - Binarny sposób zapisu
+    - Brak graficznego języka programowania ogólnego zastosowania
+    - Egzotyczne sposoby zapisu
 ** Przeszkody w zdobyciu popularności - Edytory
+*** Screenshot 1
+    :PROPERTIES:
+      :BEAMER_col: 0.4
+    :END:
+[[file:./img/scratch-project-listing.png]]
+*** Screenshot 2
+    :PROPERTIES:
+      :BEAMER_col: 0.6
+    :END:
+[[file:./img/scratch-project-json.png]]
 ** Przeszkody w zdobyciu popularności - Systemy kontroli wersji
+*** Pliki projektu są wykrywane jako binarne.
+[[file:./img/scratch-git-reaction.png]]
 ** Przeszkody w zdobyciu popularności - Code Review
+[[file:./img/scratch-cr.png]]
 * Cel
 ** Cel
   + Graficzne środowisko programistyczne
