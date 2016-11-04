@@ -1,4 +1,4 @@
-% Created 2016-11-04 Fri 12:52
+% Created 2016-11-04 Fri 13:40
 \documentclass[presentation]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -32,7 +32,7 @@
 \begin{document}
 
 \maketitle
-\begin{frame}{Outline}
+\begin{frame}{Plan}
 \tableofcontents
 \end{frame}
 
@@ -124,15 +124,43 @@
 \end{frame}
 \section{Realizacja}
 \label{sec-3}
-\begin{frame}[label=sec-3-1]{Realizacja: Język - Clojure}
+\begin{frame}[fragile,label=sec-3-1]{Realizacja: Język - Clojure}
+ \begin{verbatim}
+(register-handler
+  :repl-connected
+  middlewares
+  (fn [db ev]
+    (-> db
+        (assoc-in [:nrepl-connection] true)
+        (r/update-suggestions ev))))
+
+(defn- start-update-suggestions [{:keys [ns]}]
+  (nrepl/functions! ns #(dispatch [:add-suggestion ns %])))
+\end{verbatim}
 \end{frame}
 \begin{frame}[label=sec-3-2]{Realizacja: Technologia - Electron + Clojurescript}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\includegraphics[width=.9\linewidth]{img/electron-logo.png}
+\end{column}
+\begin{column}{0.4\textwidth}
+\includegraphics[width=.9\linewidth]{./img/cljs-logo.png}
+\end{column}
+\end{columns}
 \end{frame}
-\begin{frame}[label=sec-3-3]{Realizacja: Integracja z REPLem}
+\begin{frame}[label=sec-3-3]{Realizacja: Architektura}
+\includegraphics[width=.9\linewidth]{./img/Oneway.png}
 \end{frame}
 \section{Wyniki}
 \label{sec-4}
-\begin{frame}[label=sec-4-1]{Wyniki - Jarvis}
+\begin{frame}[label=sec-4-1]{Jarvis - reprezentacja}
+\includegraphics[width=.9\linewidth]{./img/j-boxes.png}
+\end{frame}
+\begin{frame}[label=sec-4-2]{Jarvis - modyfikacja}
+\includegraphics[width=.9\linewidth]{./img/j-insert.png}
+\end{frame}
+\begin{frame}[label=sec-4-3]{Jarvis - testowanie}
+\includegraphics[width=.9\linewidth]{./img/j-eval.png}
 \end{frame}
 \section{Wnioski i wyzwania na przyszłość}
 \label{sec-5}
@@ -145,7 +173,9 @@
 \begin{frame}[label=sec-5-2]{Możliwe ulepszenia}
 \begin{itemize}
 \item Inne reprezentacja kodu
-\item Lepsza interakcja z użytkownikiem
+\item Bardziej płynna, intuicyjna interakcja z użytkownikiem
+\item Ulepszony system modyfikacji kodu (drag \& drop)
+\item Szersza integracja z systemem wykonywania kodu
 \end{itemize}
 \end{frame}
 % Emacs 25.1.1 (Org mode 8.2.10)

@@ -80,14 +80,45 @@
 # REPL!
 * Realizacja
 ** Realizacja: Język - Clojure
+#+BEGIN_SRC clojure
+(register-handler
+  :repl-connected
+  middlewares
+  (fn [db ev]
+    (-> db
+        (assoc-in [:nrepl-connection] true)
+        (r/update-suggestions ev))))
+
+(defn- start-update-suggestions [{:keys [ns]}]
+  (nrepl/functions! ns #(dispatch [:add-suggestion ns %])))
+#+END_SRC
 ** Realizacja: Technologia - Electron + Clojurescript
-** Realizacja: Integracja z REPLem
+*** Screenshot 1
+    :PROPERTIES:
+      :BEAMER_col: 0.6
+    :END:
+[[file:img/electron-logo.png]]
+*** Screenshot 2
+    :PROPERTIES:
+      :BEAMER_col: 0.4
+    :END:
+[[file:./img/cljs-logo.png]]
+** Realizacja: Architektura
+file:./img/Oneway.png
 * Wyniki
-** Wyniki - Jarvis
+# Prezentacja praktyczna?
+** Jarvis - reprezentacja
+[[file:./img/j-boxes.png]]
+** Jarvis - modyfikacja
+[[file:./img/j-insert.png]]
+** Jarvis - testowanie
+[[file:./img/j-eval.png]]
 * Wnioski i wyzwania na przyszłość
 ** Problemy
   - Brak wsparcia dla wszystkich struktur Clojure
   - Brak wsparcia dla makr
 ** Możliwe ulepszenia
   - Inne reprezentacja kodu
-  - Lepsza interakcja z użytkownikiem
+  - Bardziej płynna, intuicyjna interakcja z użytkownikiem
+  - Ulepszony system modyfikacji kodu (drag & drop)
+  - Szersza integracja z systemem wykonywania kodu
